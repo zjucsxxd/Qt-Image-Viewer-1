@@ -15,4 +15,10 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    imgwin.ui \
+    aboutdialog.ui
+
+
+
+

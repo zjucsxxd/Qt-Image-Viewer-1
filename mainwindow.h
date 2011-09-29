@@ -5,6 +5,8 @@
 
 namespace Ui {
     class MainWindow;
+    class ImageWindow;
+    class AboutDialog;
 }
 
 class MainWindow : public QMainWindow
@@ -21,6 +23,7 @@ public slots:
     void doSharpen();
     void doCrop();
     //void doDesaturate();
+    void doAbout();
 
 private:
     Ui::MainWindow *ui;

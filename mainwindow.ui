@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Image Viewer</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -47,9 +47,6 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
-    <addaction name="separator"/>
     <addaction name="actionInvert"/>
     <addaction name="actionSharpen"/>
     <addaction name="actionPosterize"/>
@@ -65,18 +62,13 @@
    <addaction name="menuEdit"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
+   </property>
+   <property name="statusTip">
+    <string>Open an image from a file</string>
    </property>
   </action>
   <action name="actionInvert">
@@ -99,24 +91,26 @@
     <string>Desaturate</string>
    </property>
   </action>
-  <action name="actionUndo">
-   <property name="text">
-    <string>Undo</string>
-   </property>
-  </action>
-  <action name="actionRedo">
-   <property name="text">
-    <string>Redo</string>
-   </property>
-  </action>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+   <property name="statusTip">
+    <string>About this program</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
    </property>
   </action>
   <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
+   </property>
+   <property name="statusTip">
+    <string>Exit the program</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
    </property>
   </action>
  </widget>
@@ -156,10 +150,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionInvert</sender>
+   <sender>actionAbout</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>doNegate()</slot>
+   <slot>doAbout()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -178,12 +172,28 @@
    <slot>doSharpen()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>115</x>
-     <y>15</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>574</x>
-     <y>38</y>
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionInvert</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doNegate()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -192,5 +202,6 @@
   <slot>doOpen()</slot>
   <slot>doNegate()</slot>
   <slot>doSharpen()</slot>
+  <slot>doAbout()</slot>
  </slots>
 </ui>
