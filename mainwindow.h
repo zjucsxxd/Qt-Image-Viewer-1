@@ -17,6 +17,9 @@ public:
 
 public slots:
     void doOpen();
+    void doNegate();
+    void doSharpen();
+    void doCrop();
     //void doDesaturate();
 
 private:
