@@ -1,0 +1,6 @@
+debug/*
+release/*
+Makefile*
+*.autosave
+ui_*.h
+*.pro.user
