@@ -5,7 +5,6 @@
 
 namespace Ui {
     class MainWindow;
-    class ImageWindow;
     class AboutDialog;
 }
 
@@ -26,6 +25,8 @@ public slots:
     void doAbout();
 
 private:
+    const QPixmap* getPixmap();
+    void setPixmap(QPixmap p);
     Ui::MainWindow *ui;
 };
 

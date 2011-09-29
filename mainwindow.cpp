@@ -1,14 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ui_imgwin.h"
 #include "ui_aboutdialog.h"
+#include "imgwin.h"
 #include <QMdiArea>
 #include <QFileDialog>
 #include <QImage>
 #include <QPixmap>
-#include <QLabel>
 #include <QMdiSubWindow>
-#include <QScrollArea>
 
 // Sam: Please put a header on the constructor and destructor. --Chris
 MainWindow::MainWindow(QWidget *parent) :
@@ -23,6 +21,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+const QPixmap* MainWindow::getPixmap()
+{
+    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
+    ImgWin *win = (ImgWin*)(child->widget());
+    return win->getPixmap();
+}
+
+void MainWindow::setPixmap(QPixmap p)
+{
+    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
+    ImgWin *win = (ImgWin*)(child->widget());
+    win->setPixmap(p);
+}
+
 /******************************************************************************
  * doOpen(void): Open a document.
  * Slot function.
@@ -34,16 +46,17 @@ void MainWindow::doOpen()
 {
     QString file = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg *.bmp)");
 
-    QPixmap img(file);
-    QScrollArea* area = new QScrollArea;
-    Ui::ImageWindow* win = new Ui::ImageWindow;
-    if(file != "")
+    if (file != "")
     {
-        win->setupUi(area);
-        win->pictureLabel->setPixmap(img);
-        area->setWindowTitle(file);
+        QPixmap img(file);
+        if (!img.isNull())
+        {
+            ImgWin* win = new ImgWin;
+            win->setPixmap(img);
+            win->setWindowTitle(file);
 
-        ui->mdiArea->addSubWindow(area)->showMaximized();
+            ui->mdiArea->addSubWindow(win)->showMaximized();
+        }
     }
 }
 
@@ -56,20 +69,17 @@ void MainWindow::doOpen()
  *****************************************************************************/
 void MainWindow::doNegate()
 {
-    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
-    QLabel *label = (QLabel*)(child->widget());
-    const QPixmap *pic = label->pixmap();
-    QImage img = pic->toImage();
+    QImage img = getPixmap()->toImage();
     for(int i = 0; i < img.width(); ++i)
+    {
         for(int j = 0; j < img.height(); ++j)
         {
             QRgb old_color = img.pixel(i, j);
             old_color = qRgb(0xFF - qRed(old_color), 0xFF - qGreen(old_color), 0xFF - qBlue(old_color));
             img.setPixel(i, j, old_color);
-         }
-    label->setPixmap( pic->fromImage(img));
-    child->show();
-    return;
+        }
+    }
+    setPixmap(QPixmap::fromImage(img));
 }
 
 /******************************************************************************
@@ -86,13 +96,12 @@ void MainWindow::doNegate()
  * 0.
  *****************************************************************************/
 void MainWindow::doSharpen()
-{    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
-    QLabel *label = (QLabel*)(child->widget());
-    const QPixmap *pic = label->pixmap();
-    QImage img = pic->toImage();
+{
+    QImage img = getPixmap()->toImage();
     QImage out_img = img;
     /* We only want the inner pixels. Don't worry about the furthest edge.*/
     for(int i = 1; i < img.width() - 1; ++i)
+    {
         for(int j = 1; j < img.height() - 1; ++j)
         {
             QRgb old_color = img.pixel(i, j);
@@ -110,18 +119,15 @@ void MainWindow::doSharpen()
             if(blue < 0 ) blue = 0;
             old_color = qRgb(red, green, blue);
             out_img.setPixel(i, j, old_color);
-         }
-    label->setPixmap( pic->fromImage(out_img));
-    child->show();
-    return;
+        }
+    }
+    setPixmap(QPixmap::fromImage(out_img));
 }
 
 void MainWindow::doCrop()
-{/*
-    QLabel *label = (QLabel*)(child->widget());
-    const QPixmap *pic = label->pixmap();
-    QImage img = pic->toImage();
-    */
+{
+    QImage img = getPixmap()->toImage();
+    setPixmap(QPixmap::fromImage(img));
 }
 
 void MainWindow::doAbout()

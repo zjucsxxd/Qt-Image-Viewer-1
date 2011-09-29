@@ -11,13 +11,17 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    imgwin.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    imgwin.h
 
 FORMS    += mainwindow.ui \
     imgwin.ui \
     aboutdialog.ui
+
+
 
 
 
