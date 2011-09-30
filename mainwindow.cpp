@@ -137,3 +137,8 @@ void MainWindow::doAbout()
     about->setupUi(d);
     d->show();
 }
+
+void MainWindow::doChangeImage(QMdiSubWindow* win)
+{
+    ui->menuEdit->setDisabled(win == 0);
+}

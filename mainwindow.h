@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+class QMdiSubWindow;
+
 namespace Ui {
     class MainWindow;
     class AboutDialog;
@@ -23,6 +25,7 @@ public slots:
     void doCrop();
     //void doDesaturate();
     void doAbout();
+    void doChangeImage(QMdiSubWindow*);
 
 private:
     const QPixmap* getPixmap();

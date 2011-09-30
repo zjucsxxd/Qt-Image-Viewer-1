@@ -44,6 +44,9 @@
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>Edit</string>
     </property>
@@ -197,11 +200,28 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>mdiArea</sender>
+   <signal>subWindowActivated(QMdiSubWindow*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doChangeImage(QMdiSubWindow*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>doOpen()</slot>
   <slot>doNegate()</slot>
   <slot>doSharpen()</slot>
   <slot>doAbout()</slot>
+  <slot>doChangeImage(QMdiSubWindow*)</slot>
  </slots>
 </ui>
