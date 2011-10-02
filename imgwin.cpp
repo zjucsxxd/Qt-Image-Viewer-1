@@ -1,5 +1,6 @@
 #include "ui_imgwin.h"
 #include "imgwin.h"
+#include <QCloseEvent>
 
 ImgWin::ImgWin(QWidget *parent) :
     QScrollArea(parent), ui(new Ui::ImageWindow)
@@ -20,4 +21,10 @@ const QPixmap* ImgWin::getPixmap()
 void ImgWin::setPixmap(QPixmap image)
 {
     ui->pictureLabel->setPixmap(image);
+}
+
+void ImgWin::closeEvent(QCloseEvent *event)
+{
+    emit closing(menu_item);
+    event->accept();
 }

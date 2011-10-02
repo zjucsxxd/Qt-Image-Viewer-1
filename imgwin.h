@@ -17,8 +17,17 @@ public:
     const QPixmap* getPixmap();
     void setPixmap(QPixmap image);
 
+    void setMenuItem(QAction* a) { menu_item = a; }
+
+signals:
+    void closing(QAction*);
+
+protected:
+    void closeEvent(QCloseEvent *event);
+
 private:
     Ui::ImageWindow *ui;
+    QAction* menu_item;
 };
 
 #endif // IMGWIN_H

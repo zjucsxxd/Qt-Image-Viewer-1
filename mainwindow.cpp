@@ -55,7 +55,11 @@ void MainWindow::doOpen()
             win->setPixmap(img);
             win->setWindowTitle(file);
 
-            ui->mdiArea->addSubWindow(win)->showMaximized();
+            QMdiSubWindow* subwin = ui->mdiArea->addSubWindow(win);
+            subwin->showMaximized();
+
+            win->setMenuItem(ui->menuWindow->addAction(file,subwin,SLOT(setFocus())));
+            connect(win,SIGNAL(closing(QAction*)),this,SLOT(removeWindowListItem(QAction*)));
         }
     }
 }
@@ -141,4 +145,9 @@ void MainWindow::doAbout()
 void MainWindow::doChangeImage(QMdiSubWindow* win)
 {
     ui->menuEdit->setDisabled(win == 0);
+}
+
+void MainWindow::removeWindowListItem(QAction* act)
+{
+    ui->menuWindow->removeAction(act);
 }

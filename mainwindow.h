@@ -26,6 +26,7 @@ public slots:
     //void doDesaturate();
     void doAbout();
     void doChangeImage(QMdiSubWindow*);
+    void removeWindowListItem(QAction* act);
 
 private:
     const QPixmap* getPixmap();
