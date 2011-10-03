@@ -83,6 +83,22 @@ void MainWindow::doOpen()
 }
 
 /******************************************************************************
+ * doSave(void): Save a document.
+ * Slot function.
+ * Signalers: actionSave
+ * Save the current image to the name provided.
+ *****************************************************************************/
+void MainWindow::doSave()
+{
+    QString file = QFileDialog::getSaveFileName(this, "Save Image", "", "Image Files (*.png *.jpg *.bmp)");
+
+    if (file != "")
+    {
+        getPixmap()->save(file);
+    }
+}
+
+/******************************************************************************
  * doNegate(void): Negate an image.
  * Slot function.
  * Signalers: actionNegate()
@@ -175,6 +191,7 @@ void MainWindow::doAbout()
 void MainWindow::doChangeImage(QMdiSubWindow* win)
 {
     ui->menuEdit->setDisabled(win == 0);
+    ui->actionSave->setDisabled(win == 0);
 }
 
 /******************************************************************************

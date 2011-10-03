@@ -32,7 +32,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>29</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -40,6 +40,7 @@
      <string>File</string>
     </property>
     <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -133,6 +134,14 @@
   <action name="actionCascade">
    <property name="text">
     <string>Cascade</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save</string>
    </property>
   </action>
  </widget>
@@ -235,6 +244,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSave</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doSave()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>doOpen()</slot>
@@ -242,5 +267,6 @@
   <slot>doSharpen()</slot>
   <slot>doAbout()</slot>
   <slot>doChangeImage(QMdiSubWindow*)</slot>
+  <slot>doSave()</slot>
  </slots>
 </ui>

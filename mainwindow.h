@@ -18,8 +18,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-public slots:
+private slots:
     void doOpen();
+    void doSave();
     void doNegate();
     void doSharpen();
     void doCrop();
