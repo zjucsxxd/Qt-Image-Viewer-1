@@ -8,7 +8,11 @@
 #include <QPixmap>
 #include <QMdiSubWindow>
 
-// Sam: Please put a header on the constructor and destructor. --Chris
+/******************************************************************************
+ * MainWindow(QWidget*): Creates the MainWindow class
+ * Creates the main window, passing the parent to QMainWindow, and initializing
+ * the ui.
+ *****************************************************************************/
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -16,11 +20,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 }
 
+/******************************************************************************
+ * ~MainWindow(): Destructor
+ * Deletes the ui.
+ *****************************************************************************/
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+/******************************************************************************
+ * QPixmap* getPixmap(): Get the current image window's image
+ * Private function.
+ * Finds the current image window and returns the image.
+ *****************************************************************************/
 const QPixmap* MainWindow::getPixmap()
 {
     QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
@@ -28,6 +41,11 @@ const QPixmap* MainWindow::getPixmap()
     return win->getPixmap();
 }
 
+/******************************************************************************
+ * setPixmap(QPixmap): Set the current image window's image
+ * Private function.
+ * Finds the current image window and sets the image.
+ *****************************************************************************/
 void MainWindow::setPixmap(QPixmap p)
 {
     QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
@@ -134,6 +152,12 @@ void MainWindow::doCrop()
     setPixmap(QPixmap::fromImage(img));
 }
 
+/******************************************************************************
+ * doAbout(): Show about dialog.
+ * Slot function.
+ * Signalers: actionAbout()
+ * Shows the About dialog from aboutdialog.ui.
+ *****************************************************************************/
 void MainWindow::doAbout()
 {
     QDialog* d = new QDialog;
@@ -142,11 +166,23 @@ void MainWindow::doAbout()
     d->show();
 }
 
+/******************************************************************************
+ * doChangeImage(QMdiSubWindow*): Handles window switching.
+ * Slot function.
+ * Signalers: QMdiArea->SubWindowActivated(QMdiSubWindow*)
+ * Changes the enabled state of the edit menu when the last window is closed.
+ *****************************************************************************/
 void MainWindow::doChangeImage(QMdiSubWindow* win)
 {
     ui->menuEdit->setDisabled(win == 0);
 }
 
+/******************************************************************************
+ * removeWindowListItem(QAction*): Remove the QAction from the window list.
+ * Slot function.
+ * Signalers: ImgWin->closing(QAction*)
+ * Remove the QAction from the window menu when the window closes.
+ *****************************************************************************/
 void MainWindow::removeWindowListItem(QAction* act)
 {
     ui->menuWindow->removeAction(act);
