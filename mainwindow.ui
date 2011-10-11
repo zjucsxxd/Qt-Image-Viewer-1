@@ -46,7 +46,7 @@
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="title">
      <string>Edit</string>
@@ -100,7 +100,7 @@
   </action>
   <action name="actionPosterize">
    <property name="text">
-    <string>Posterize</string>
+    <string>Smooth</string>
    </property>
   </action>
   <action name="actionZoom">
@@ -152,6 +152,9 @@
    </property>
   </action>
   <action name="actionImage_Info">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Image Info</string>
    </property>
@@ -304,6 +307,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionPosterize</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doSmooth()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>doOpen()</slot>
@@ -314,5 +333,6 @@
   <slot>doSave()</slot>
   <slot>doZoom()</slot>
   <slot>doInfo()</slot>
+  <slot>doSmooth()</slot>
  </slots>
 </ui>

@@ -25,6 +25,7 @@ private slots:
     void doSharpen();
     void doCrop();
     void doZoom();
+    void doSmooth();
     //void doDesaturate();
     void doAbout();
     void doInfo();

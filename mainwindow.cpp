@@ -164,7 +164,56 @@ void MainWindow::doSharpen()
     }
     setPixmap(QPixmap::fromImage(out_img));
 }
-
+/******************************************************************************
+ * doSharpen(void): Apply a sharpen filter to an image.
+ * Slot function.
+ * Signalers: actionNegate()
+ * Attempts to sharpen an image by applying a
+ * [0  -1  0]
+ * [-1  5 -1]
+ * [0  -1  0]
+ * filter to each pixel in succession.
+ * Each color has the filter applied seperately, and if a color would exceed
+ * 0xFF, it is clipped to 0xFF. If a color would go below 0, it is clipped to
+ * 0.
+ *****************************************************************************/
+void MainWindow::doSmooth()
+{
+    QImage img = getPixmap()->toImage();
+    QImage out_img = img;
+    /* We only want the inner pixels. Don't worry about the furthest edge.*/
+    for(int i = 1; i < img.width() - 1; ++i)
+    {
+        for(int j = 1; j < img.height() - 1; ++j)
+        {
+            QRgb old_color = img.pixel(i, j);
+            int red = qRed(old_color);
+            int blue = qBlue(old_color);
+            int green = qGreen(old_color);
+            red = (red * 4 + qRed(img.pixel(i-1,j)) * 2 + qRed(img.pixel(i+1,j)) * 2
+                  + qRed(img.pixel(i,j-1)) * 2 + qRed(img.pixel(i,j+1)) * 2
+                  + qRed(img.pixel(i-1,j-1)) + qRed(img.pixel(i+1,j+1))
+                  + qRed(img.pixel(i-1,j+1)) + qRed(img.pixel(i+1, j-1)) ) / 16;
+            blue = (blue * 4 + qBlue(img.pixel(i-1,j)) * 2 + qBlue(img.pixel(i+1,j)) * 2
+                  + qBlue(img.pixel(i,j-1)) * 2 + qBlue(img.pixel(i,j+1)) * 2
+                  + qBlue(img.pixel(i-1,j-1)) + qBlue(img.pixel(i+1,j+1))
+                  + qBlue(img.pixel(i-1,j+1)) + qBlue(img.pixel(i+1, j-1)) ) / 16;
+            green = (green * 4 + qGreen(img.pixel(i-1,j)) * 2 + qGreen(img.pixel(i+1,j)) * 2
+                  + qGreen(img.pixel(i,j-1)) * 2 + qGreen(img.pixel(i,j+1)) * 2
+                  + qGreen(img.pixel(i-1,j-1)) + qGreen(img.pixel(i+1,j+1))
+                  + qGreen(img.pixel(i-1,j+1)) + qGreen(img.pixel(i+1, j-1)) ) / 16;
+            if(red > 0xFF) red = 0xEF;
+            if(red < 0) red = 0;
+            if(green > 0xFF) green = 0xEF;
+            if(green < 0) green = 0;
+            if(blue > 0xFF) blue = 0xEF;
+            if(blue < 0 ) blue = 0;
+            old_color = qRgb(red, green, blue);
+            out_img.setPixel(i, j, old_color);
+        }
+    }
+    setPixmap(QPixmap::fromImage(out_img));
+}
 void MainWindow::doZoom()
 {
     QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
