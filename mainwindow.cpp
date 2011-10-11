@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ui_aboutdialog.h"
+#include "zoomdialog.h"
 #include "imgwin.h"
 #include <QMdiArea>
 #include <QFileDialog>
@@ -162,6 +163,13 @@ void MainWindow::doSharpen()
     setPixmap(QPixmap::fromImage(out_img));
 }
 
+void MainWindow::doZoom()
+{
+    ZoomDialog *zoom = new ZoomDialog(ui->mdiArea->activeSubWindow());
+    zoom->setTarget((ImgWin*) ui->mdiArea->activeSubWindow());
+    zoom->show();
+}
+
 void MainWindow::doCrop()
 {
     QImage img = getPixmap()->toImage();
@@ -180,6 +188,20 @@ void MainWindow::doAbout()
     Ui::AboutDialog* about = new Ui::AboutDialog;
     about->setupUi(d);
     d->show();
+}
+
+/*******************************************************************************
+ * doInfo(): Show a dialog containing basic image info.
+ * Slot function.
+ * Signalers: actionInfo()
+ * Shows the Image Info dialog from imageInfo.ui and sets the fields.
+ ******************************************************************************/
+void MainWindow::doInfo()
+{
+    /*
+    QDialog* d = new QDialog;
+    Ui::imageInfo* info = new Ui::imageInfo;
+    */
 }
 
 /******************************************************************************

@@ -16,8 +16,9 @@ public:
 
     const QPixmap* getPixmap();
     void setPixmap(QPixmap image);
-
+    void scale(int);
     void setMenuItem(QAction* a) { menu_item = a; }
+    void setFileName(QString fname){file_name = fname;}
 
 signals:
     void closing(QAction*);
@@ -28,6 +29,7 @@ protected:
 private:
     Ui::ImageWindow *ui;
     QAction* menu_item;
+    QString file_name;
 };
 
 #endif // IMGWIN_H

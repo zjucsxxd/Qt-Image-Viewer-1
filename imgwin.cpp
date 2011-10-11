@@ -29,7 +29,8 @@ ImgWin::~ImgWin()
  *****************************************************************************/
 const QPixmap* ImgWin::getPixmap()
 {
-    return ui->pictureLabel->pixmap();
+    QLabel *label = ui->pictureLabel;
+    return label->pixmap();
 }
 
 /******************************************************************************
@@ -40,6 +41,7 @@ const QPixmap* ImgWin::getPixmap()
 void ImgWin::setPixmap(QPixmap image)
 {
     ui->pictureLabel->setPixmap(image);
+    ui->pictureLabel->setScaledContents(true);
 }
 
 /******************************************************************************
@@ -52,4 +54,10 @@ void ImgWin::closeEvent(QCloseEvent *event)
 {
     emit closing(menu_item);
     event->accept();
+}
+
+void ImgWin::scale(int factor)
+{
+        ui->pictureLabel->resize(ui->pictureLabel->pixmap()->size() * factor);
+        ui->pictureLabel->show();
 }

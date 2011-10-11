@@ -24,8 +24,10 @@ private slots:
     void doNegate();
     void doSharpen();
     void doCrop();
+    void doZoom();
     //void doDesaturate();
     void doAbout();
+    void doInfo();
     void doChangeImage(QMdiSubWindow*);
     void removeWindowListItem(QAction* act);
 

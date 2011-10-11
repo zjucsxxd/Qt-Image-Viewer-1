@@ -32,7 +32,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -54,13 +54,14 @@
     <addaction name="actionInvert"/>
     <addaction name="actionSharpen"/>
     <addaction name="actionPosterize"/>
-    <addaction name="actionGreyscale"/>
+    <addaction name="actionZoom"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
+    <addaction name="actionImage_Info"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -85,6 +86,9 @@
    </property>
   </action>
   <action name="actionInvert">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Negate</string>
    </property>
@@ -99,9 +103,12 @@
     <string>Posterize</string>
    </property>
   </action>
-  <action name="actionGreyscale">
+  <action name="actionZoom">
    <property name="text">
-    <string>Desaturate</string>
+    <string>Zoom...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -142,6 +149,11 @@
    </property>
    <property name="text">
     <string>Save</string>
+   </property>
+  </action>
+  <action name="actionImage_Info">
+   <property name="text">
+    <string>Image Info</string>
    </property>
   </action>
  </widget>
@@ -260,6 +272,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionZoom</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doZoom()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>doOpen()</slot>
@@ -268,5 +296,6 @@
   <slot>doAbout()</slot>
   <slot>doChangeImage(QMdiSubWindow*)</slot>
   <slot>doSave()</slot>
+  <slot>doZoom()</slot>
  </slots>
 </ui>

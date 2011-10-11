@@ -12,17 +12,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    imgwin.cpp
+    imgwin.cpp \
+    zoomdialog.cpp
 
 HEADERS  += mainwindow.h \
-    imgwin.h
+    imgwin.h \
+    zoomdialog.h
 
 FORMS    += mainwindow.ui \
     imgwin.ui \
-    aboutdialog.ui
-
-
-
-
-
-
+    aboutdialog.ui \
+    zoomdialog.ui
