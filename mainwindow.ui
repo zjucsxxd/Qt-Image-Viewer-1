@@ -288,6 +288,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionImage_Info</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doInfo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>doOpen()</slot>
@@ -297,5 +313,6 @@
   <slot>doChangeImage(QMdiSubWindow*)</slot>
   <slot>doSave()</slot>
   <slot>doZoom()</slot>
+  <slot>doInfo()</slot>
  </slots>
 </ui>

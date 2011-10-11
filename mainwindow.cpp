@@ -3,6 +3,7 @@
 #include "ui_aboutdialog.h"
 #include "zoomdialog.h"
 #include "imgwin.h"
+#include "imgabout.h"
 #include <QMdiArea>
 #include <QFileDialog>
 #include <QImage>
@@ -73,6 +74,7 @@ void MainWindow::doOpen()
             ImgWin* win = new ImgWin;
             win->setPixmap(img);
             win->setWindowTitle(file);
+            win->setReader(file);
 
             QMdiSubWindow* subwin = ui->mdiArea->addSubWindow(win);
             subwin->showMaximized();
@@ -200,10 +202,11 @@ void MainWindow::doAbout()
  ******************************************************************************/
 void MainWindow::doInfo()
 {
-    /*
-    QDialog* d = new QDialog;
-    Ui::imageInfo* info = new Ui::imageInfo;
-    */
+    imgAbout *d = new imgAbout();
+    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
+    ImgWin *win = (ImgWin*)(child->widget());
+    d->setup(win);
+    d->show();
 }
 
 /******************************************************************************
@@ -216,6 +219,7 @@ void MainWindow::doChangeImage(QMdiSubWindow* win)
 {
     ui->menuEdit->setDisabled(win == 0);
     ui->actionSave->setDisabled(win == 0);
+    ui->actionImage_Info->setDisabled(win == 0);
 }
 
 /******************************************************************************

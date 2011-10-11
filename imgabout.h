@@ -2,6 +2,7 @@
 #define IMGABOUT_H
 
 #include <QDialog>
+#include "imgwin.h"
 
 namespace Ui {
     class imgAbout;
@@ -14,6 +15,7 @@ class imgAbout : public QDialog
 public:
     explicit imgAbout(QWidget *parent = 0);
     ~imgAbout();
+    void setup(ImgWin *);
 
 private:
     Ui::imgAbout *ui;

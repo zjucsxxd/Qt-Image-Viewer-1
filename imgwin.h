@@ -2,6 +2,7 @@
 #define IMGWIN_H
 
 #include <QScrollArea>
+#include <QImageReader>
 
 namespace Ui {
     class ImageWindow;
@@ -18,7 +19,9 @@ public:
     void setPixmap(QPixmap image);
     void scale(int);
     void setMenuItem(QAction* a) { menu_item = a; }
-    void setFileName(QString fname){file_name = fname;}
+    void setReader(QString inreader){reader.setFileName(inreader);}
+    QImageReader* getReader(){return &reader;}
+
 
 signals:
     void closing(QAction*);
@@ -29,7 +32,7 @@ protected:
 private:
     Ui::ImageWindow *ui;
     QAction* menu_item;
-    QString file_name;
+    QImageReader reader;
 };
 
 #endif // IMGWIN_H
