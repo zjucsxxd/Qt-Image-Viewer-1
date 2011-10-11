@@ -165,8 +165,10 @@ void MainWindow::doSharpen()
 
 void MainWindow::doZoom()
 {
+    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
+    ImgWin *win = (ImgWin*)(child->widget());
     ZoomDialog *zoom = new ZoomDialog(ui->mdiArea->activeSubWindow());
-    zoom->setTarget((ImgWin*) ui->mdiArea->activeSubWindow());
+    zoom->setTarget(win);
     zoom->show();
 }
 

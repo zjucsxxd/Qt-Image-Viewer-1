@@ -58,6 +58,6 @@ void ImgWin::closeEvent(QCloseEvent *event)
 
 void ImgWin::scale(int factor)
 {
-        ui->pictureLabel->resize(ui->pictureLabel->pixmap()->size() * factor);
+        ui->pictureLabel->resize(ui->pictureLabel->pixmap()->size() * (factor/100.0));
         ui->pictureLabel->show();
 }

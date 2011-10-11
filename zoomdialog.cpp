@@ -26,4 +26,5 @@ void ZoomDialog::commit()
     {
         target->scale(ui->zoomSlider->value());
     }
+    close();
 }
