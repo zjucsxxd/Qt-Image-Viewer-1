@@ -41,7 +41,7 @@ const QPixmap* ImgWin::getPixmap()
 void ImgWin::setPixmap(QPixmap image)
 {
     ui->pictureLabel->setPixmap(image);
-    ui->pictureLabel->setScaledContents(true);
+    ui->scrollAreaWidgetContents->adjustSize();
 }
 
 /******************************************************************************
@@ -58,6 +58,5 @@ void ImgWin::closeEvent(QCloseEvent *event)
 
 void ImgWin::scale(int factor)
 {
-        ui->pictureLabel->resize(ui->pictureLabel->pixmap()->size() * (factor/100.0));
-        ui->pictureLabel->show();
+    ui->scrollAreaWidgetContents->resize(ui->pictureLabel->pixmap()->size() * (factor/100.0));
 }
