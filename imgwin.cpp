@@ -8,7 +8,7 @@
  * initializing the ui.
  *****************************************************************************/
 ImgWin::ImgWin(QWidget *parent) :
-    QScrollArea(parent), ui(new Ui::ImageWindow)
+    QScrollArea(parent), ui(new Ui::ImageWindow), scaleFactor(1.0)
 {
     ui->setupUi(this);
 }
@@ -41,7 +41,18 @@ const QPixmap* ImgWin::getPixmap()
 void ImgWin::setPixmap(QPixmap image)
 {
     ui->pictureLabel->setPixmap(image);
-    ui->scrollAreaWidgetContents->adjustSize();
+    ui->scrollAreaWidgetContents->resize(image.size() * scaleFactor);
+}
+
+/******************************************************************************
+ * QRect setSelection(QPixmap): Get the mouse selection of the image
+ * Public function.
+ * Get the selection of the user on the pictureLabel.
+ *****************************************************************************/
+QRect ImgWin::getSelection()
+{
+    QRect sel = ui->pictureLabel->getSelection();
+    return QRect(sel.topLeft() / scaleFactor, sel.size() / scaleFactor);
 }
 
 /******************************************************************************
@@ -58,5 +69,6 @@ void ImgWin::closeEvent(QCloseEvent *event)
 
 void ImgWin::scale(int factor)
 {
-    ui->scrollAreaWidgetContents->resize(ui->pictureLabel->pixmap()->size() * (factor/100.0));
+    scaleFactor = factor / 100.0;
+    ui->scrollAreaWidgetContents->resize(ui->pictureLabel->pixmap()->size() * scaleFactor);
 }

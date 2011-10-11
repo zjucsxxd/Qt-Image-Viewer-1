@@ -9,6 +9,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QMdiSubWindow>
+#include <QMessageBox>
 
 /******************************************************************************
  * MainWindow(QWidget*): Creates the MainWindow class
@@ -32,15 +33,24 @@ MainWindow::~MainWindow()
 }
 
 /******************************************************************************
+ * QPixmap* getCurrent(): Get the current image window
+ * Private function.
+ * Finds the current image window and returns it.
+ *****************************************************************************/
+ImgWin* MainWindow::getCurrent()
+{
+    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
+    return (ImgWin*)(child->widget());
+}
+
+/******************************************************************************
  * QPixmap* getPixmap(): Get the current image window's image
  * Private function.
  * Finds the current image window and returns the image.
  *****************************************************************************/
 const QPixmap* MainWindow::getPixmap()
 {
-    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
-    ImgWin *win = (ImgWin*)(child->widget());
-    return win->getPixmap();
+    return getCurrent()->getPixmap();
 }
 
 /******************************************************************************
@@ -50,9 +60,7 @@ const QPixmap* MainWindow::getPixmap()
  *****************************************************************************/
 void MainWindow::setPixmap(QPixmap p)
 {
-    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
-    ImgWin *win = (ImgWin*)(child->widget());
-    win->setPixmap(p);
+    getCurrent()->setPixmap(p);
 }
 
 /******************************************************************************
@@ -99,6 +107,19 @@ void MainWindow::doSave()
     {
         getPixmap()->save(file);
     }
+}
+
+/******************************************************************************
+ * doRevert(void): Change back to original file contents.
+ * Slot function.
+ * Signalers: actionRevert
+ * Revert the current image to the original.
+ *****************************************************************************/
+void MainWindow::doRevert()
+{
+    ImgWin *win = getCurrent();
+
+    win->setPixmap(QPixmap::fromImageReader(win->getReader()));
 }
 
 /******************************************************************************
@@ -176,7 +197,16 @@ void MainWindow::doZoom()
 
 void MainWindow::doCrop()
 {
+    ImgWin* win = getCurrent();
     QImage img = getPixmap()->toImage();
+    QRect sel = win->getSelection();
+    if (sel.isEmpty())
+    {
+        QMessageBox::information(this, "Crop", "Press select a region to crop", QMessageBox::Ok);
+        return;
+    }
+
+    img = img.copy(win->getSelection());
     setPixmap(QPixmap::fromImage(img));
 }
 

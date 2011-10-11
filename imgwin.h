@@ -19,9 +19,9 @@ public:
     void setPixmap(QPixmap image);
     void scale(int);
     void setMenuItem(QAction* a) { menu_item = a; }
-    void setReader(QString inreader){reader.setFileName(inreader);}
-    QImageReader* getReader(){return &reader;}
-
+    void setReader(QString inreader) { reader.setFileName(inreader); }
+    QImageReader* getReader( ){ return &reader; }
+    QRect getSelection();
 
 signals:
     void closing(QAction*);
@@ -33,6 +33,7 @@ private:
     Ui::ImageWindow *ui;
     QAction* menu_item;
     QImageReader reader;
+    float scaleFactor;
 };
 
 #endif // IMGWIN_H
