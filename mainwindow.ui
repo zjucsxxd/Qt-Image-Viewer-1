@@ -57,6 +57,7 @@
     <addaction name="actionPosterize"/>
     <addaction name="actionCrop"/>
     <addaction name="actionZoom"/>
+    <addaction name="actionResize"/>
     <addaction name="separator"/>
     <addaction name="actionColor_Adjust"/>
    </widget>
@@ -176,6 +177,14 @@
   <action name="actionColor_Adjust">
    <property name="text">
     <string>Color Adjust...</string>
+   </property>
+  </action>
+  <action name="actionResize">
+   <property name="text">
+    <string>Resize</string>
+   </property>
+   <property name="statusTip">
+    <string>Resize the image</string>
    </property>
   </action>
  </widget>
@@ -390,6 +399,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionResize</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doResize()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>doOpen()</slot>
@@ -404,5 +429,6 @@
   <slot>doRevert()</slot>
   <slot>doSmooth()</slot>
   <slot>doSliders()</slot>
+  <slot>doResize()</slot>
  </slots>
 </ui>

@@ -9,6 +9,7 @@ class ImgWin;
 namespace Ui {
     class MainWindow;
     class AboutDialog;
+    class ImgResizeDialog;
 }
 
 class MainWindow : public QMainWindow
@@ -28,6 +29,7 @@ private slots:
     void doNegate();
     void doSharpen();
     void doCrop();
+    void doResize();
     void doSmooth();
     // Menu disabling functions
     void doChangeImage(QMdiSubWindow*);

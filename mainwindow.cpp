@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ui_aboutdialog.h"
+#include "ui_imgresizedialog.h"
 #include "zoomdialog.h"
 #include "imgwin.h"
 #include "imgabout.h"
@@ -102,7 +103,7 @@ void MainWindow::doOpen()
  *****************************************************************************/
 void MainWindow::doSave()
 {
-    QString file = QFileDialog::getSaveFileName(this, "Save Image", "", "Image Files (*.png *.jpg *.bmp)");
+    QString file = QFileDialog::getSaveFileName(this, "Save Image", "", "Image Files (*.png *.jpg *.bmp) ");
 
     if (file != "")
     {
@@ -272,6 +273,22 @@ void MainWindow::doCrop()
 
     img = img.copy(win->getSelection());
     setPixmap(QPixmap::fromImage(img));
+}
+
+void MainWindow::doResize()
+{
+    QDialog* d = new QDialog(this);
+    Ui::ImgResizeDialog* resize = new Ui::ImgResizeDialog;
+    resize->setupUi(d);
+    resize->widthSpin->setValue(getPixmap()->size().width());
+    resize->heightSpin->setValue(getPixmap()->size().height());
+    resize->widthSpin->setRange(1,1000000);
+    resize->heightSpin->setRange(1,1000000);
+
+    if (d->exec() == QDialog::Accepted)
+    {
+        setPixmap(getPixmap()->scaled(QSize(resize->widthSpin->value(),resize->heightSpin->value())));
+    }
 }
 
 /******************************************************************************

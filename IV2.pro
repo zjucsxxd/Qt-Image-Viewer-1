@@ -31,4 +31,4 @@ FORMS    += mainwindow.ui \
     zoomdialog.ui \
     imgabout.ui \
     sliderdialog.ui \
-    imgabout.ui
+    imgresizedialog.ui
