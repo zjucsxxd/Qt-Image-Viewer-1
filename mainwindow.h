@@ -4,6 +4,8 @@
 #include <QMainWindow>
 
 class QMdiSubWindow;
+class QLabel;
+class QSlider;
 class ImgWin;
 
 namespace Ui {
@@ -18,6 +20,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+signals:
+    void imageEditable(bool);
 
 private slots:
     // File operations
@@ -36,6 +41,7 @@ private slots:
     // Dialogs
     void doSliders();
     void doZoom();
+    void doFillWindow();
     void doInfo();
     void doAbout();
     // Mouseover info
@@ -46,6 +52,7 @@ private:
     const QPixmap* getPixmap();
     void setPixmap(QPixmap p);
     Ui::MainWindow *ui;
+    QSlider *zoom_slider;
 };
 
 #endif // MAINWINDOW_H

@@ -12,6 +12,7 @@
 #include <QMdiSubWindow>
 #include <QMessageBox>
 
+
 /******************************************************************************
  * MainWindow(QWidget*): Creates the MainWindow class
  * Creates the main window, passing the parent to QMainWindow, and initializing
@@ -22,6 +23,32 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    // Add a spacer on the toolbar (can't do it in design mode)
+    QWidget *w = new QWidget();
+    QSizePolicy p(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    w->setSizePolicy(p);
+    ui->toolBar->addWidget(w);
+
+    ui->toolBar->addAction(ui->actionZoom);
+
+    zoom_slider = new QSlider(Qt::Vertical);
+    zoom_slider->setRange(10, 300);
+    zoom_slider->setSingleStep(10);
+    zoom_slider->setValue(100);
+    zoom_slider->setTickInterval(40);
+    zoom_slider->setTickPosition(QSlider::TicksRight);
+    zoom_slider->setEnabled(false);
+    zoom_slider->setMaximumSize(200,200);
+    zoom_slider->setMinimumWidth(40);
+    zoom_slider->connect(ui->toolBar, SIGNAL(orientationChanged(Qt::Orientation)), SLOT(setOrientation(Qt::Orientation)));
+    p.setHorizontalStretch(1);
+    p.setVerticalStretch(1);
+    zoom_slider->setSizePolicy(p);
+
+    ui->toolBar->addWidget(zoom_slider);
+
+    ui->toolBar->addAction(ui->actionFit_window);
 }
 
 /******************************************************************************
@@ -259,6 +286,19 @@ void MainWindow::doZoom()
 }
 
 /******************************************************************************
+ * doFillWindow(): Change the zoom to hold the whole image.
+ * Slot function.
+ * Signalers: actionFillWindow()
+ * Zoom the image to fit it inside the image window.
+ *****************************************************************************/
+void MainWindow::doFillWindow()
+{
+    ImgWin *c = getCurrent();
+    c->setScale(std::min(c->contentsRect().width() * 100.0 / getPixmap()->width(),
+                         c->contentsRect().height() * 100.0 / getPixmap()->height()));
+}
+
+/******************************************************************************
  * doCrop(): Crop the image.
  * Slot function.
  * Signalers: actionCrop()
@@ -340,9 +380,18 @@ void MainWindow::doChangeImage(QMdiSubWindow* win)
 {
     ui->statusBar->clearMessage();
 
-    ui->menuEdit->setDisabled(win == 0);
-    ui->actionSave->setDisabled(win == 0);
-    ui->actionRevert->setDisabled(win == 0);
+    zoom_slider->setDisabled(win == 0);
+    zoom_slider->disconnect();
+    if (win)
+    {
+        ImgWin *c = getCurrent();
+
+        zoom_slider->setValue(c->getScale());
+        c->connect(zoom_slider, SIGNAL(valueChanged(int)), SLOT(setScale(int)));
+        zoom_slider->connect(c, SIGNAL(scaleChanged(int)), SLOT(setValue(int)));
+    }
+
+    emit imageEditable(win != 0);
 }
 
 /******************************************************************************

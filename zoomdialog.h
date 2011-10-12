@@ -17,8 +17,9 @@ public:
     ~ZoomDialog();
     void setTarget(ImgWin*);
 
-public slots:
+private slots:
     void commit();
+    void updateBoxes(int);
 
 private:
     Ui::ZoomDialog *ui;

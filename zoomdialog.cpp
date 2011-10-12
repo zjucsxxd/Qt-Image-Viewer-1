@@ -19,6 +19,7 @@ void ZoomDialog::setTarget(ImgWin *newTarget)
 {
     target = newTarget;
     ui->zoomSlider->setValue(target->getScale());
+    updateBoxes(target->getScale());
 }
 
 void ZoomDialog::commit()
@@ -28,3 +29,10 @@ void ZoomDialog::commit()
         target->setScale(ui->zoomSlider->value());
     }
 }
+
+void ZoomDialog::updateBoxes(int s)
+{
+    ui->xBox->setValue(target->getPixmap()->width() * s / 100);
+    ui->yBox->setValue(target->getPixmap()->height() * s / 100);
+}
+

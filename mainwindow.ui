@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>687</width>
+    <height>438</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,8 +31,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
-     <height>25</height>
+     <width>687</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -41,14 +41,12 @@
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="separator"/>
     <addaction name="actionRevert"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
+   <widget class="QMenu" name="menuImage">
     <property name="title">
      <string>Image</string>
     </property>
@@ -62,6 +60,7 @@
     <addaction name="actionCrop"/>
     <addaction name="actionResize"/>
     <addaction name="separator"/>
+    <addaction name="actionFit_window"/>
     <addaction name="actionZoom"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -79,11 +78,36 @@
     <addaction name="separator"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
+   <addaction name="menuImage"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>Image operations</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+   <addaction name="separator"/>
+   <addaction name="actionRevert"/>
+   <addaction name="separator"/>
+   <addaction name="actionImage_Info"/>
+   <addaction name="separator"/>
+   <addaction name="actionInvert"/>
+   <addaction name="actionSharpen"/>
+   <addaction name="actionSmooth"/>
+   <addaction name="separator"/>
+   <addaction name="actionCrop"/>
+   <addaction name="actionResize"/>
+   <addaction name="separator"/>
+  </widget>
   <action name="actionOpen">
    <property name="text">
     <string>Open...</string>
@@ -91,10 +115,13 @@
    <property name="statusTip">
     <string>Open an image from a file</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionInvert">
    <property name="enabled">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Negate</string>
@@ -104,6 +131,9 @@
    </property>
   </action>
   <action name="actionSharpen">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Sharpen</string>
    </property>
@@ -112,6 +142,9 @@
    </property>
   </action>
   <action name="actionSmooth">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Smooth</string>
    </property>
@@ -120,6 +153,9 @@
    </property>
   </action>
   <action name="actionZoom">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Zoom...</string>
    </property>
@@ -136,6 +172,9 @@
    </property>
    <property name="statusTip">
     <string>About this program</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
    <property name="menuRole">
     <enum>QAction::AboutRole</enum>
@@ -178,8 +217,14 @@
    <property name="statusTip">
     <string>Save the image</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionImage_Info">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Image Info</string>
    </property>
@@ -192,13 +237,16 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Revert</string>
+    <string>Revert...</string>
    </property>
    <property name="statusTip">
     <string>Revert back to the file on disk</string>
    </property>
   </action>
   <action name="actionCrop">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Crop</string>
    </property>
@@ -212,11 +260,22 @@
    </property>
   </action>
   <action name="actionResize">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
-    <string>Resize</string>
+    <string>Resize...</string>
    </property>
    <property name="statusTip">
     <string>Resize the image</string>
+   </property>
+  </action>
+  <action name="actionFit_window">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Fit window</string>
    </property>
   </action>
  </widget>
@@ -479,8 +538,185 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionSave</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionRevert</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionImage_Info</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionInvert</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionSmooth</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionSharpen</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionCrop</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionResize</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionZoom</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFit_window</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doFillWindow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>270</x>
+     <y>200</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionFit_window</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>270</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
+  <signal>imageEditable(bool)</signal>
   <slot>doOpen()</slot>
   <slot>doNegate()</slot>
   <slot>doSharpen()</slot>
@@ -494,5 +730,6 @@
   <slot>doSmooth()</slot>
   <slot>doSliders()</slot>
   <slot>doResize()</slot>
+  <slot>doFillWindow()</slot>
  </slots>
 </ui>
