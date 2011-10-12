@@ -15,8 +15,13 @@ public:
     explicit ImgWin(QWidget *parent = 0);
     ~ImgWin();
 
-    const QPixmap* getPixmap();
-    void setPixmap(QPixmap image);
+    QImage getImage()
+    {
+        return image;
+    }
+
+    void setImage(QImage);
+
     QRect getSelection();
 
     int getScale() const
@@ -58,6 +63,7 @@ private:
     Ui::ImageWindow *ui;
     QAction* menu_item;
     QImageReader reader;
+    QImage image;
     float scaleFactor;
 };
 

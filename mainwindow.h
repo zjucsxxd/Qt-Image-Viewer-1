@@ -49,8 +49,9 @@ private slots:
 
 private:
     ImgWin* getCurrent();
-    const QPixmap* getPixmap();
-    void setPixmap(QPixmap p);
+    QImage getImage();
+    void setImage(QImage p);
+
     Ui::MainWindow *ui;
     QSlider *zoom_slider;
 };

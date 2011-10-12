@@ -72,23 +72,23 @@ ImgWin* MainWindow::getCurrent()
 }
 
 /******************************************************************************
- * QPixmap* getPixmap(): Get the current image window's image
+ * QImage getImage(): Get the current image window's image
  * Private function.
  * Finds the current image window and returns the image.
  *****************************************************************************/
-const QPixmap* MainWindow::getPixmap()
+QImage MainWindow::getImage()
 {
-    return getCurrent()->getPixmap();
+    return getCurrent()->getImage();
 }
 
 /******************************************************************************
- * setPixmap(QPixmap): Set the current image window's image
+ * setImage(QImage): Set the current image window's image
  * Private function.
  * Finds the current image window and sets the image.
  *****************************************************************************/
-void MainWindow::setPixmap(QPixmap p)
+void MainWindow::setImage(QImage p)
 {
-    getCurrent()->setPixmap(p);
+    getCurrent()->setImage(p);
 }
 
 /******************************************************************************
@@ -104,11 +104,11 @@ void MainWindow::doOpen()
 
     if (file != "")
     {
-        QPixmap img(file);
+        QImage img(file);
         if (!img.isNull())
         {
             ImgWin* win = new ImgWin;
-            win->setPixmap(img);
+            win->setImage(img);
             win->setWindowTitle(file);
             win->setReader(file);
 
@@ -137,7 +137,7 @@ void MainWindow::doSave()
 
     if (file != "")
     {
-        getPixmap()->save(file);
+        getImage().save(file);
     }
 }
 
@@ -152,7 +152,7 @@ void MainWindow::doRevert()
     if (QMessageBox::Ok == QMessageBox::question(this, "Revert file", "Do you want to revert? You will lose all your changes.", QMessageBox::Ok, QMessageBox::Cancel))
     {
         ImgWin *win = getCurrent();
-        win->setPixmap(QPixmap::fromImageReader(win->getReader()));
+        win->setImage(win->getReader()->read());
         win->setReader(win->getReader()->fileName());
     }
 }
@@ -166,7 +166,7 @@ void MainWindow::doRevert()
  *****************************************************************************/
 void MainWindow::doNegate()
 {
-    QImage img = getPixmap()->toImage();
+    QImage img = getImage();
     for(int i = 0; i < img.width(); ++i)
     {
         for(int j = 0; j < img.height(); ++j)
@@ -176,7 +176,7 @@ void MainWindow::doNegate()
             img.setPixel(i, j, old_color);
         }
     }
-    setPixmap(QPixmap::fromImage(img));
+    setImage(img);
 }
 
 /******************************************************************************
@@ -194,7 +194,7 @@ void MainWindow::doNegate()
  *****************************************************************************/
 void MainWindow::doSharpen()
 {
-    QImage img = getPixmap()->toImage();
+    QImage img = getImage();
     QImage out_img = img;
     /* We only want the inner pixels. Don't worry about the furthest edge.*/
     for(int i = 1; i < img.width() - 1; ++i)
@@ -218,7 +218,7 @@ void MainWindow::doSharpen()
             out_img.setPixel(i, j, old_color);
         }
     }
-    setPixmap(QPixmap::fromImage(out_img));
+    setImage(out_img);
 }
 
 /******************************************************************************
@@ -236,7 +236,7 @@ void MainWindow::doSharpen()
  *****************************************************************************/
 void MainWindow::doSmooth()
 {
-    QImage img = getPixmap()->toImage();
+    QImage img = getImage();
     QImage out_img = img;
     /* We only want the inner pixels. Don't worry about the furthest edge.*/
     for(int i = 1; i < img.width() - 1; ++i)
@@ -269,7 +269,7 @@ void MainWindow::doSmooth()
             out_img.setPixel(i, j, old_color);
         }
     }
-    setPixmap(QPixmap::fromImage(out_img));
+    setImage(out_img);
 }
 
 /******************************************************************************
@@ -294,8 +294,8 @@ void MainWindow::doZoom()
 void MainWindow::doFillWindow()
 {
     ImgWin *c = getCurrent();
-    c->setScale(std::min(c->contentsRect().width() * 100.0 / getPixmap()->width(),
-                         c->contentsRect().height() * 100.0 / getPixmap()->height()));
+    c->setScale(std::min(c->contentsRect().width() * 100.0 / getImage().width(),
+                         c->contentsRect().height() * 100.0 / getImage().height()));
 }
 
 /******************************************************************************
@@ -307,7 +307,6 @@ void MainWindow::doFillWindow()
 void MainWindow::doCrop()
 {
     ImgWin* win = getCurrent();
-    QImage img = getPixmap()->toImage();
 
     QRect sel = win->getSelection();
     if (sel.isEmpty())
@@ -316,8 +315,7 @@ void MainWindow::doCrop()
         return;
     }
 
-    img = img.copy(win->getSelection());
-    setPixmap(QPixmap::fromImage(img));
+    setImage(getImage().copy(win->getSelection()));
 }
 
 /******************************************************************************
@@ -331,14 +329,14 @@ void MainWindow::doResize()
     QDialog* d = new QDialog(this);
     Ui::ImgResizeDialog* resize = new Ui::ImgResizeDialog;
     resize->setupUi(d);
-    resize->widthSpin->setValue(getPixmap()->size().width());
-    resize->heightSpin->setValue(getPixmap()->size().height());
+    resize->widthSpin->setValue(getImage().size().width());
+    resize->heightSpin->setValue(getImage().size().height());
     resize->widthSpin->setRange(1,1000000);
     resize->heightSpin->setRange(1,1000000);
 
     if (d->exec() == QDialog::Accepted)
     {
-        setPixmap(getPixmap()->scaled(QSize(resize->widthSpin->value(),resize->heightSpin->value())));
+        setImage(getImage().scaled(QSize(resize->widthSpin->value(),resize->heightSpin->value())));
     }
 }
 
@@ -411,7 +409,7 @@ void MainWindow::doSliders()
     QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
     ImgWin *win = (ImgWin*)(child->widget());
     d->setTarget(win);
-    d->setPixmap(win->getPixmap());
+    d->setImage(win->getImage());
     d->exec();
 }
 

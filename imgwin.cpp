@@ -24,24 +24,14 @@ ImgWin::~ImgWin()
 }
 
 /******************************************************************************
- * QPixmap* getPixmap(): Get the image
- * Public function.
- * Gets the current image from the pictureLabel.
- *****************************************************************************/
-const QPixmap* ImgWin::getPixmap()
-{
-    QLabel *label = ui->pictureLabel;
-    return label->pixmap();
-}
-
-/******************************************************************************
- * setPixmap(QPixmap): Set the image
+ * setImage(QImage): Set the image
  * Public function.
  * Sets the current image in the pictureLabel.
  *****************************************************************************/
-void ImgWin::setPixmap(QPixmap image)
+void ImgWin::setImage(QImage i)
 {
-    ui->pictureLabel->setPixmap(image);
+    image = i;
+    ui->pictureLabel->setPixmap(QPixmap::fromImage(image));
     ui->scrollAreaWidgetContents->resize(image.size() * scaleFactor);
     ui->pictureLabel->setImgSelection(QRect(0,0,0,0));
 }

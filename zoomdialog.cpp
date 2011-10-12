@@ -32,7 +32,7 @@ void ZoomDialog::commit()
 
 void ZoomDialog::updateBoxes(int s)
 {
-    ui->xBox->setValue(target->getPixmap()->width() * s / 100);
-    ui->yBox->setValue(target->getPixmap()->height() * s / 100);
+    ui->xBox->setValue(target->getImage().width() * s / 100);
+    ui->yBox->setValue(target->getImage().height() * s / 100);
 }
 

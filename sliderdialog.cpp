@@ -15,9 +15,9 @@ SliderDialog::~SliderDialog()
     delete ui;
 }
 
-void SliderDialog::setPixmap(const QPixmap *pic)
+void SliderDialog::setImage(QImage pic)
 {
-    ui->PreviewLabel->setPixmap(*pic);
+    ui->PreviewLabel->setPixmap(QPixmap::fromImage(pic));
 }
 
 const QPixmap * SliderDialog::getPixmap()
@@ -131,6 +131,6 @@ void SliderDialog::setGreen()
 void SliderDialog::commit()
 {
     const QPixmap *pic = ui->PreviewLabel->pixmap();
-    target->setPixmap(*pic);
+    target->setImage(pic->toImage());
     accept();
 }

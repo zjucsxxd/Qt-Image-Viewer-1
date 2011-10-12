@@ -16,7 +16,7 @@ public:
     explicit SliderDialog(QWidget *parent = 0);
     ~SliderDialog();
     void setTarget(ImgWin* win){target = win;}
-    void setPixmap(const QPixmap*);
+    void setImage(QImage);
 
 public slots:
     void setBrightness();
