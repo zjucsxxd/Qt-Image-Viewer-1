@@ -27,8 +27,8 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     imgwin.ui \
-    aboutdialog.ui \
     zoomdialog.ui \
     imgabout.ui \
     sliderdialog.ui \
     imgresizedialog.ui
+

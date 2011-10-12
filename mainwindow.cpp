@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ui_aboutdialog.h"
 #include "ui_imgresizedialog.h"
 #include "zoomdialog.h"
 #include "imgwin.h"
@@ -120,9 +119,12 @@ void MainWindow::doSave()
  *****************************************************************************/
 void MainWindow::doRevert()
 {
-    ImgWin *win = getCurrent();
-
-    win->setPixmap(QPixmap::fromImageReader(win->getReader()));
+    if (QMessageBox::Ok == QMessageBox::question(this, "Revert file", "Do you want to revert? You will lose all your changes.", QMessageBox::Ok, QMessageBox::Cancel))
+    {
+        ImgWin *win = getCurrent();
+        win->setPixmap(QPixmap::fromImageReader(win->getReader()));
+        win->setReader(win->getReader()->fileName());
+    }
 }
 
 /******************************************************************************
@@ -277,6 +279,12 @@ void MainWindow::doCrop()
     setPixmap(QPixmap::fromImage(img));
 }
 
+/******************************************************************************
+ * doResize(): Resize the image.
+ * Slot function.
+ * Signalers: actionResize()
+ * Launch a dialog box and resize the image to the specified size.
+ *****************************************************************************/
 void MainWindow::doResize()
 {
     QDialog* d = new QDialog(this);
@@ -301,10 +309,8 @@ void MainWindow::doResize()
  *****************************************************************************/
 void MainWindow::doAbout()
 {
-    QDialog* d = new QDialog;
-    Ui::AboutDialog* about = new Ui::AboutDialog;
-    about->setupUi(d);
-    d->show();
+    QMessageBox::information(this, "About",
+        "A very simple image viewer, created for GUI/OOP. Copyright 2011 Samuel Harrington & Chris Jensen.");
 }
 
 /*******************************************************************************

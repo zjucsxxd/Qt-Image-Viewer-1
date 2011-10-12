@@ -4,3 +4,4 @@ Makefile*
 *.autosave
 ui_*.h
 *.pro.user
+object_script.*

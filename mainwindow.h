@@ -8,7 +8,6 @@ class ImgWin;
 
 namespace Ui {
     class MainWindow;
-    class AboutDialog;
     class ImgResizeDialog;
 }
 
