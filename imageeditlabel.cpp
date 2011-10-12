@@ -15,5 +15,7 @@ void ImageEditLabel::mousePressEvent(QMouseEvent *ev)
 
 void ImageEditLabel::mouseMoveEvent(QMouseEvent *ev)
 {
-    rubber->setGeometry(QRect(dragStart,ev->pos()).normalized());
+    if (ev->buttons() & Qt::LeftButton)
+        rubber->setGeometry(QRect(dragStart,ev->pos()).normalized());
+    emit mouseOverInfo(ev->pos());
 }

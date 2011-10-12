@@ -89,8 +89,11 @@ void MainWindow::doOpen()
             subwin->showMaximized();
 
             // Add a item to the window menu
-            win->setMenuItem(ui->menuWindow->addAction(file,subwin,SLOT(setFocus())));
-            connect(win,SIGNAL(closing(QAction*)),this,SLOT(removeWindowListItem(QAction*)));
+            win->setMenuItem(ui->menuWindow->addAction(file, subwin, SLOT(setFocus())));
+            connect(win, SIGNAL(closing(QAction*)), this, SLOT(removeWindowListItem(QAction*)));
+
+            // Mouse info
+            connect(win, SIGNAL(mouseOverInfo(QPoint)), SLOT(imgMouseInfo(QPoint)), Qt::UniqueConnection);
         }
     }
 }
@@ -250,10 +253,8 @@ void MainWindow::doSmooth()
  *****************************************************************************/
 void MainWindow::doZoom()
 {
-    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
-    ImgWin *win = (ImgWin*)(child->widget());
-    ZoomDialog *zoom = new ZoomDialog(child);
-    zoom->setTarget(win);
+    ZoomDialog *zoom = new ZoomDialog(this);
+    zoom->setTarget(getCurrent());
     zoom->show();
 }
 
@@ -310,7 +311,8 @@ void MainWindow::doResize()
 void MainWindow::doAbout()
 {
     QMessageBox::information(this, "About",
-        "A very simple image viewer, created for GUI/OOP. Copyright 2011 Samuel Harrington & Chris Jensen.");
+        "A very simple image viewer, created for GUI/OOP.\n"
+        "Copyright 2011 Samuel Harrington & Chris Jensen.");
 }
 
 /*******************************************************************************
@@ -336,6 +338,8 @@ void MainWindow::doInfo()
  *****************************************************************************/
 void MainWindow::doChangeImage(QMdiSubWindow* win)
 {
+    ui->statusBar->clearMessage();
+
     ui->menuEdit->setDisabled(win == 0);
     ui->actionSave->setDisabled(win == 0);
     ui->actionRevert->setDisabled(win == 0);
@@ -360,4 +364,16 @@ void MainWindow::doSliders()
     d->setTarget(win);
     d->setPixmap(win->getPixmap());
     d->exec();
+}
+
+/******************************************************************************
+ * imgMouseInfo(QPoint): Display mouse info.
+ * Slot function.
+ * Signalers: ImgWin->mouseOverInfo(QPoint)
+ * Display that the mouse is at the given point on the image (not screen).
+ *****************************************************************************/
+void MainWindow::imgMouseInfo(QPoint p)
+{
+    QString msg = QString("%1, %2").arg(p.x()).arg(p.y());
+    ui->statusBar->showMessage(msg);
 }

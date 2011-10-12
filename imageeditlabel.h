@@ -21,6 +21,9 @@ public:
         rubber->setGeometry(r);
     }
 
+signals:
+    void mouseOverInfo(QPoint);
+
 protected:
     void mousePressEvent(QMouseEvent *ev);
     void mouseMoveEvent(QMouseEvent *ev);

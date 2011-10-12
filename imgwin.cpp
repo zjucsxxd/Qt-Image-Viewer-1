@@ -11,6 +11,7 @@ ImgWin::ImgWin(QWidget *parent) :
     QScrollArea(parent), ui(new Ui::ImageWindow), scaleFactor(1.0)
 {
     ui->setupUi(this);
+    connect(ui->pictureLabel, SIGNAL(mouseOverInfo(QPoint)), SLOT(labelMouseInfo(QPoint)));
 }
 
 /******************************************************************************
@@ -79,4 +80,5 @@ void ImgWin::setScale(int factor)
     scaleFactor = factor / 100.0;
     ui->scrollAreaWidgetContents->resize(ui->pictureLabel->pixmap()->size() * scaleFactor);
     ui->pictureLabel->setImgSelection(QRect(sel.topLeft() * scaleFactor, sel.size() * scaleFactor));
+    emit scaleChanged(scaleFactor * 100);
 }

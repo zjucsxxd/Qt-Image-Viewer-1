@@ -17,34 +17,42 @@ public:
 
     const QPixmap* getPixmap();
     void setPixmap(QPixmap image);
+    QRect getSelection();
 
-    void setScale(int);
-    int scale()
+    int getScale() const
     {
         return scaleFactor * 100;
     }
 
+    QImageReader* getReader()
+    {
+        return &reader;
+    }
+    void setReader(QString inreader)
+    {
+        reader.setFileName(inreader);
+    }
+
+signals:
+    void closing(QAction*);
+    void scaleChanged(int);
+    void mouseOverInfo(QPoint);
+
+public slots:
+    void setScale(int);
     void setMenuItem(QAction* a)
     {
         menu_item = a;
     }
 
-    void setReader(QString inreader)
-    {
-        reader.setFileName(inreader);
-    }
-    QImageReader* getReader()
-    {
-        return &reader;
-    }
-
-    QRect getSelection();
-
-signals:
-    void closing(QAction*);
-
 protected:
     void closeEvent(QCloseEvent *event);
+
+private slots:
+    void labelMouseInfo(QPoint p)
+    {
+        emit mouseOverInfo(p / scaleFactor);
+    }
 
 private:
     Ui::ImageWindow *ui;

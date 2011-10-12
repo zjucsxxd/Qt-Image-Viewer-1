@@ -38,6 +38,8 @@ private slots:
     void doZoom();
     void doInfo();
     void doAbout();
+    // Mouseover info
+    void imgMouseInfo(QPoint);
 
 private:
     ImgWin* getCurrent();
