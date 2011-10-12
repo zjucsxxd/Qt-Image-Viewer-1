@@ -54,6 +54,7 @@ private:
 
     Ui::MainWindow *ui;
     QSlider *zoom_slider;
+    QWidget *status_color_swatch;
 };
 
 #endif // MAINWINDOW_H

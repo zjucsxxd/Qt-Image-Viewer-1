@@ -24,6 +24,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    status_color_swatch = new QLabel();
+    QPalette pal = status_color_swatch->palette();
+    pal.setColor(status_color_swatch->backgroundRole(), Qt::black);
+    status_color_swatch->setPalette(pal);
+    status_color_swatch->setAutoFillBackground(true);
+    status_color_swatch->setMinimumSize(50,5);
+    ui->statusBar->addPermanentWidget(status_color_swatch);
+
     // Add a spacer on the toolbar (can't do it in design mode)
     QWidget *w = new QWidget();
     QSizePolicy p(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -421,6 +429,14 @@ void MainWindow::doSliders()
  *****************************************************************************/
 void MainWindow::imgMouseInfo(QPoint p)
 {
-    QString msg = QString("%1, %2").arg(p.x()).arg(p.y());
+    QImage i = getImage();
+    QColor c(i.pixel(p));
+    QString msg = QString("%1,%2 (%3,%4) [h%5 s%6 v%7]")
+            .arg(p.x()).arg(p.y())
+            .arg(i.width()).arg(i.height())
+            .arg(c.hue()).arg(c.saturation()).arg(c.value());
     ui->statusBar->showMessage(msg);
+    QPalette pal = status_color_swatch->palette();
+    pal.setColor(status_color_swatch->backgroundRole(), c);
+    status_color_swatch->setPalette(pal);
 }

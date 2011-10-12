@@ -4,6 +4,7 @@
 ImageEditLabel::ImageEditLabel(QWidget *parent) :
     QLabel(parent), rubber(new QRubberBand(QRubberBand::Rectangle, this))
 {
+    rubber->setMouseTracking(true);
 }
 
 void ImageEditLabel::mousePressEvent(QMouseEvent *ev)
