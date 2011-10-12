@@ -236,6 +236,13 @@ void MainWindow::doSmooth()
     }
     setPixmap(QPixmap::fromImage(out_img));
 }
+
+/******************************************************************************
+ * doZoom(): Change the view zoom.
+ * Slot function.
+ * Signalers: actionZoom()
+ * Zoom the image to the factor the user specifies.
+ *****************************************************************************/
 void MainWindow::doZoom()
 {
     QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
@@ -245,14 +252,21 @@ void MainWindow::doZoom()
     zoom->show();
 }
 
+/******************************************************************************
+ * doCrop(): Crop the image.
+ * Slot function.
+ * Signalers: actionCrop()
+ * Crop the image to the selection.
+ *****************************************************************************/
 void MainWindow::doCrop()
 {
     ImgWin* win = getCurrent();
     QImage img = getPixmap()->toImage();
+
     QRect sel = win->getSelection();
     if (sel.isEmpty())
     {
-        QMessageBox::information(this, "Crop", "Press select a region to crop", QMessageBox::Ok);
+        QMessageBox::warning(this, "Crop", "Press select a region to crop.", QMessageBox::Ok);
         return;
     }
 

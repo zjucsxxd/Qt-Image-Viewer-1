@@ -16,6 +16,7 @@ public:
     explicit ZoomDialog(QWidget *parent = 0);
     ~ZoomDialog();
     void setTarget(ImgWin*);
+
 public slots:
     void commit();
 

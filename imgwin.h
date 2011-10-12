@@ -17,10 +17,27 @@ public:
 
     const QPixmap* getPixmap();
     void setPixmap(QPixmap image);
-    void scale(int);
-    void setMenuItem(QAction* a) { menu_item = a; }
-    void setReader(QString inreader) { reader.setFileName(inreader); }
-    QImageReader* getReader( ){ return &reader; }
+
+    void setScale(int);
+    int scale()
+    {
+        return scaleFactor * 100;
+    }
+
+    void setMenuItem(QAction* a)
+    {
+        menu_item = a;
+    }
+
+    void setReader(QString inreader)
+    {
+        reader.setFileName(inreader);
+    }
+    QImageReader* getReader()
+    {
+        return &reader;
+    }
+
     QRect getSelection();
 
 signals:

@@ -2,16 +2,13 @@
 #include <QRubberBand>
 
 ImageEditLabel::ImageEditLabel(QWidget *parent) :
-    QLabel(parent), rubber(0)
+    QLabel(parent), rubber(new QRubberBand(QRubberBand::Rectangle, this))
 {
-
 }
 
 void ImageEditLabel::mousePressEvent(QMouseEvent *ev)
 {
     dragStart = ev->pos();
-    if (!rubber)
-        rubber = new QRubberBand(QRubberBand::Rectangle, this);
     rubber->setGeometry(QRect(dragStart, QSize()));
     rubber->show();
 }

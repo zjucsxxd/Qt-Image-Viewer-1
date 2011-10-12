@@ -42,6 +42,7 @@ void ImgWin::setPixmap(QPixmap image)
 {
     ui->pictureLabel->setPixmap(image);
     ui->scrollAreaWidgetContents->resize(image.size() * scaleFactor);
+    ui->pictureLabel->setImgSelection(QRect(0,0,0,0));
 }
 
 /******************************************************************************
@@ -51,7 +52,7 @@ void ImgWin::setPixmap(QPixmap image)
  *****************************************************************************/
 QRect ImgWin::getSelection()
 {
-    QRect sel = ui->pictureLabel->getSelection();
+    QRect sel = ui->pictureLabel->getImgSelection();
     return QRect(sel.topLeft() / scaleFactor, sel.size() / scaleFactor);
 }
 
@@ -67,8 +68,15 @@ void ImgWin::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
-void ImgWin::scale(int factor)
+/******************************************************************************
+ * setScale(int): Change the image zoom.
+ * Public function.
+ * Set the scale factor for the zoom, and resize the view and selection.
+ *****************************************************************************/
+void ImgWin::setScale(int factor)
 {
+    QRect sel = getSelection();
     scaleFactor = factor / 100.0;
     ui->scrollAreaWidgetContents->resize(ui->pictureLabel->pixmap()->size() * scaleFactor);
+    ui->pictureLabel->setImgSelection(QRect(sel.topLeft() * scaleFactor, sel.size() * scaleFactor));
 }

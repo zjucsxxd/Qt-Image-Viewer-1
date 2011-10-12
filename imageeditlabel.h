@@ -10,17 +10,15 @@ class ImageEditLabel : public QLabel
     Q_OBJECT
 public:
     explicit ImageEditLabel(QWidget *parent = 0);
-    QRect getSelection()
+
+    QRect getImgSelection()
     {
-        if (!rubber)
-            return QRect(0,0,0,0);
         return rubber->geometry();
     }
-    void setPixmap(const QPixmap &p)
+
+    void setImgSelection(QRect r)
     {
-        if (rubber)
-            rubber->setGeometry(0,0,0,0);
-        QLabel::setPixmap(p);
+        rubber->setGeometry(r);
     }
 
 protected:

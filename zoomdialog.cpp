@@ -18,12 +18,13 @@ ZoomDialog::~ZoomDialog()
 void ZoomDialog::setTarget(ImgWin *newTarget)
 {
     target = newTarget;
+    ui->zoomSlider->setValue(target->scale());
 }
 
 void ZoomDialog::commit()
 {
     if(target != NULL)
     {
-        target->scale(ui->zoomSlider->value());
+        target->setScale(ui->zoomSlider->value());
     }
 }
