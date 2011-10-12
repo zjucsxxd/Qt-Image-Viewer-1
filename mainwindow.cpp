@@ -74,7 +74,7 @@ void MainWindow::setPixmap(QPixmap p)
  *****************************************************************************/
 void MainWindow::doOpen()
 {
-    QString file = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg *.bmp)");
+    QString file = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.gif);;Any Files (*.*)");
 
     if (file != "")
     {
@@ -89,6 +89,7 @@ void MainWindow::doOpen()
             QMdiSubWindow* subwin = ui->mdiArea->addSubWindow(win);
             subwin->showMaximized();
 
+            // Add a item to the window menu
             win->setMenuItem(ui->menuWindow->addAction(file,subwin,SLOT(setFocus())));
             connect(win,SIGNAL(closing(QAction*)),this,SLOT(removeWindowListItem(QAction*)));
         }
@@ -187,6 +188,7 @@ void MainWindow::doSharpen()
     }
     setPixmap(QPixmap::fromImage(out_img));
 }
+
 /******************************************************************************
  * doSharpen(void): Apply a sharpen filter to an image.
  * Slot function.
@@ -330,7 +332,7 @@ void MainWindow::doChangeImage(QMdiSubWindow* win)
 {
     ui->menuEdit->setDisabled(win == 0);
     ui->actionSave->setDisabled(win == 0);
-    ui->actionImage_Info->setDisabled(win == 0);
+    ui->actionRevert->setDisabled(win == 0);
 }
 
 /******************************************************************************

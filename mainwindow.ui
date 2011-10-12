@@ -50,23 +50,25 @@
      <bool>false</bool>
     </property>
     <property name="title">
-     <string>Edit</string>
+     <string>Image</string>
     </property>
+    <addaction name="actionImage_Info"/>
+    <addaction name="separator"/>
     <addaction name="actionInvert"/>
     <addaction name="actionSharpen"/>
-    <addaction name="actionPosterize"/>
+    <addaction name="actionSmooth"/>
+    <addaction name="actionColor_Adjust"/>
+    <addaction name="separator"/>
     <addaction name="actionCrop"/>
-    <addaction name="actionZoom"/>
     <addaction name="actionResize"/>
     <addaction name="separator"/>
-    <addaction name="actionColor_Adjust"/>
+    <addaction name="actionZoom"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
-    <addaction name="actionImage_Info"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -84,7 +86,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
    <property name="text">
-    <string>Open</string>
+    <string>Open...</string>
    </property>
    <property name="statusTip">
     <string>Open an image from a file</string>
@@ -97,20 +99,32 @@
    <property name="text">
     <string>Negate</string>
    </property>
+   <property name="statusTip">
+    <string>Negate the image color</string>
+   </property>
   </action>
   <action name="actionSharpen">
    <property name="text">
     <string>Sharpen</string>
    </property>
+   <property name="statusTip">
+    <string>Sharpen the image</string>
+   </property>
   </action>
-  <action name="actionPosterize">
+  <action name="actionSmooth">
    <property name="text">
     <string>Smooth</string>
+   </property>
+   <property name="statusTip">
+    <string>Smooth the image</string>
    </property>
   </action>
   <action name="actionZoom">
    <property name="text">
     <string>Zoom...</string>
+   </property>
+   <property name="statusTip">
+    <string>Change the viewing zoom</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Z</string>
@@ -142,10 +156,16 @@
    <property name="text">
     <string>Tile</string>
    </property>
+   <property name="statusTip">
+    <string>Tile the image windows</string>
+   </property>
   </action>
   <action name="actionCascade">
    <property name="text">
     <string>Cascade</string>
+   </property>
+   <property name="statusTip">
+    <string>Cascade the image windows</string>
    </property>
   </action>
   <action name="actionSave">
@@ -153,25 +173,37 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string>Save As...</string>
+   </property>
+   <property name="statusTip">
+    <string>Save the image</string>
    </property>
   </action>
   <action name="actionImage_Info">
+   <property name="text">
+    <string>Image Info</string>
+   </property>
+   <property name="statusTip">
+    <string>Show information about the image</string>
+   </property>
+  </action>
+  <action name="actionRevert">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Image Info</string>
-   </property>
-  </action>
-  <action name="actionRevert">
-   <property name="text">
     <string>Revert</string>
+   </property>
+   <property name="statusTip">
+    <string>Revert back to the file on disk</string>
    </property>
   </action>
   <action name="actionCrop">
    <property name="text">
     <string>Crop</string>
+   </property>
+   <property name="statusTip">
+    <string>Crop the image based on the selection</string>
    </property>
   </action>
   <action name="actionColor_Adjust">
@@ -368,7 +400,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionPosterize</sender>
+   <sender>actionSmooth</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>doSmooth()</slot>
@@ -412,6 +444,38 @@
     <hint type="destinationlabel">
      <x>199</x>
      <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionTile</sender>
+   <signal>triggered()</signal>
+   <receiver>mdiArea</receiver>
+   <slot>tileSubWindows()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCascade</sender>
+   <signal>triggered()</signal>
+   <receiver>mdiArea</receiver>
+   <slot>cascadeSubWindows()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>150</y>
     </hint>
    </hints>
   </connection>
