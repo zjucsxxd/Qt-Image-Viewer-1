@@ -41,6 +41,7 @@
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="actionRevert"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -54,7 +55,9 @@
     <addaction name="actionInvert"/>
     <addaction name="actionSharpen"/>
     <addaction name="actionPosterize"/>
+    <addaction name="actionCrop"/>
     <addaction name="actionZoom"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -157,6 +160,16 @@
    </property>
    <property name="text">
     <string>Image Info</string>
+   </property>
+  </action>
+  <action name="actionRevert">
+   <property name="text">
+    <string>Revert</string>
+   </property>
+  </action>
+  <action name="actionCrop">
+   <property name="text">
+    <string>Crop</string>
    </property>
   </action>
  </widget>
@@ -302,6 +315,38 @@
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCrop</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doCrop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRevert</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doRevert()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
      <x>199</x>
      <y>149</y>
     </hint>
@@ -333,6 +378,8 @@
   <slot>doSave()</slot>
   <slot>doZoom()</slot>
   <slot>doInfo()</slot>
+  <slot>doCrop()</slot>
+  <slot>doRevert()</slot>
   <slot>doSmooth()</slot>
  </slots>
 </ui>

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 class QMdiSubWindow;
+class ImgWin;
 
 namespace Ui {
     class MainWindow;
@@ -21,6 +22,7 @@ public:
 private slots:
     void doOpen();
     void doSave();
+    void doRevert();
     void doNegate();
     void doSharpen();
     void doCrop();
@@ -33,6 +35,7 @@ private slots:
     void removeWindowListItem(QAction* act);
 
 private:
+    ImgWin* getCurrent();
     const QPixmap* getPixmap();
     void setPixmap(QPixmap p);
     Ui::MainWindow *ui;

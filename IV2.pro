@@ -15,17 +15,20 @@ SOURCES += main.cpp\
     imgwin.cpp \
     zoomdialog.cpp \
     imgabout.cpp \
-    sliderdialog.cpp
+    sliderdialog.cpp \
+    imageeditlabel.cpp
 
 HEADERS  += mainwindow.h \
     imgwin.h \
     zoomdialog.h \
     imgabout.h \
-    sliderdialog.h
+    sliderdialog.h \
+    imageeditlabel.h
 
 FORMS    += mainwindow.ui \
     imgwin.ui \
     aboutdialog.ui \
     zoomdialog.ui \
     imgabout.ui \
-    sliderdialog.ui
+    sliderdialog.ui \
+    imgabout.ui
