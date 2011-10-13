@@ -15,20 +15,22 @@ class SliderDialog : public QDialog
 public:
     explicit SliderDialog(QWidget *parent = 0);
     ~SliderDialog();
+    void setTarget(ImgWin* win){target = win;}
+    void setPixmap(const QPixmap*);
 
 public slots:
     void setBrightness();
-    void setTarget(ImgWin* win);
     void setContrast();
     void setRed();
     void setBlue();
     void setGreen();
-    void setPixmap(QPixmap*);
+    void commit();
 
 private:
     Ui::SliderDialog *ui;
-    const QPixmap* getPixmap();
+    const QPixmap *getPixmap();
     ImgWin* target;
+    int bright_index;
 };
 
 #endif // SLIDERDIALOG_H

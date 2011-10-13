@@ -4,6 +4,7 @@
 #include "zoomdialog.h"
 #include "imgwin.h"
 #include "imgabout.h"
+#include "sliderdialog.h"
 #include <QMdiArea>
 #include <QFileDialog>
 #include <QImage>
@@ -310,4 +311,14 @@ void MainWindow::doChangeImage(QMdiSubWindow* win)
 void MainWindow::removeWindowListItem(QAction* act)
 {
     ui->menuWindow->removeAction(act);
+}
+
+void MainWindow::doSliders()
+{
+    SliderDialog *d = new SliderDialog(ui->mdiArea->activeSubWindow());
+    QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
+    ImgWin *win = (ImgWin*)(child->widget());
+    d->setTarget(win);
+    d->setPixmap(win->getPixmap());
+    d->exec();
 }

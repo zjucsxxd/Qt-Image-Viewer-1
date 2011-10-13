@@ -20,19 +20,23 @@ public:
     ~MainWindow();
 
 private slots:
+    // File operations
     void doOpen();
     void doSave();
     void doRevert();
+    // Image manipulations
     void doNegate();
     void doSharpen();
     void doCrop();
-    void doZoom();
     void doSmooth();
-    //void doDesaturate();
-    void doAbout();
-    void doInfo();
+    // Menu disabling functions
     void doChangeImage(QMdiSubWindow*);
     void removeWindowListItem(QAction* act);
+    // Dialogs
+    void doSliders();
+    void doZoom();
+    void doInfo();
+    void doAbout();
 
 private:
     ImgWin* getCurrent();
