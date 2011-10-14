@@ -76,6 +76,8 @@ MainWindow::~MainWindow()
 ImgWin* MainWindow::getCurrent()
 {
     QMdiSubWindow *child = ui->mdiArea->activeSubWindow();
+    if (!child)
+        return 0;
     return (ImgWin*)(child->widget());
 }
 
@@ -86,7 +88,10 @@ ImgWin* MainWindow::getCurrent()
  *****************************************************************************/
 QImage MainWindow::getImage()
 {
-    return getCurrent()->getImage();
+    ImgWin *cur = getCurrent();
+    if (cur)
+        return cur->getImage();
+    return QImage();
 }
 
 /******************************************************************************
@@ -157,9 +162,12 @@ void MainWindow::doSave()
  *****************************************************************************/
 void MainWindow::doRevert()
 {
-    if (QMessageBox::Ok == QMessageBox::question(this, "Revert file", "Do you want to revert? You will lose all your changes.", QMessageBox::Ok, QMessageBox::Cancel))
+    // Must happen before the message box, because it deactivates the subwindow
+    ImgWin *win = getCurrent();
+    if (QMessageBox::Ok == QMessageBox::question(this, "Revert file",
+        "Do you want to revert? You will lose all your changes.",
+        QMessageBox::Ok | QMessageBox::Cancel))
     {
-        ImgWin *win = getCurrent();
         win->setImage(win->getReader()->read());
         win->setReader(win->getReader()->fileName());
     }
@@ -430,6 +438,8 @@ void MainWindow::doSliders()
 void MainWindow::imgMouseInfo(QPoint p)
 {
     QImage i = getImage();
+    if (i.isNull())
+        return;
     QColor c(i.pixel(p));
     QString msg = QString("%1,%2 (%3,%4) [h%5 s%6 v%7]")
             .arg(p.x()).arg(p.y())
