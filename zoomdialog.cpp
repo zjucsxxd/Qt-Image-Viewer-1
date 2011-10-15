@@ -46,7 +46,7 @@ void ZoomDialog::commit()
 
 void ZoomDialog::updateBoxes(int s)
 {
-    ui->xBox->setValue(target->getImage().width() * s / 100);
-    ui->yBox->setValue(target->getImage().height() * s / 100);
+    ui->xBox->setText(QString().setNum(target->getImage().width() * s / 100));
+    ui->yBox->setText(QString().setNum(target->getImage().height() * s / 100));
 }
 
