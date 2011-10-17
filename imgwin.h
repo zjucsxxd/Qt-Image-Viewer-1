@@ -1,3 +1,9 @@
+/******************************************************************************
+ * imgwin.h
+ * Header file for the image viewer window. See the imgwin.cpp file for
+ * more information.
+ *****************************************************************************/
+
 #ifndef IMGWIN_H
 #define IMGWIN_H
 

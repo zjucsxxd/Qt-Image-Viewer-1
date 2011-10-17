@@ -9,18 +9,21 @@
 #include "imgabout.h"
 #include "ui_imgabout.h"
 #include <QImageReader>
-// Defalut constructor; created by Qt Designer.
+
+// Default constructor; created by Qt Designer.
 imgAbout::imgAbout(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::imgAbout)
 {
     ui->setupUi(this);
 }
+
 // Default destructor; created by Qt Designer.
 imgAbout::~imgAbout()
 {
     delete ui;
 }
+
 /******************************************************************************
  * setup(ImgWin*): Set the correct values for the strings based on the target
  * window.

@@ -1,3 +1,9 @@
+/******************************************************************************
+ * imgeditlabel.h
+ * Header file for the label that holds the image. See the imgeditlabel.cpp
+ * file for more information.
+ *****************************************************************************/
+
 #ifndef IMAGEEDITLABEL_H
 #define IMAGEEDITLABEL_H
 

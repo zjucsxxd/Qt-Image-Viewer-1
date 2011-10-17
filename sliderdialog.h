@@ -1,7 +1,7 @@
 /******************************************************************************
  * sliderdialog.h
  * Class prototypes and methods for the slider dialog (Color Adjust window).
- * Details about the file can be found in sliderdialog.cpp to avoid redundancy.
+ * Details about the file can be found in sliderdialog.cpp.
  * Author: Christopher Jensen
  *****************************************************************************/
 

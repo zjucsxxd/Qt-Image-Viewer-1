@@ -461,6 +461,12 @@ void MainWindow::removeWindowListItem(QAction* act)
     ui->menuWindow->removeAction(act);
 }
 
+/******************************************************************************
+ * doSliders(): Show the image color adjustment dialog.
+ * Slot function.
+ * Signalers: actionColorAdjust
+ * Display the color adjustment dialog and wait for it to complete.
+ *****************************************************************************/
 void MainWindow::doSliders()
 {
     SliderDialog *d = new SliderDialog(ui->mdiArea->activeSubWindow());
@@ -493,11 +499,23 @@ void MainWindow::imgMouseInfo(QPoint p)
     status_color_swatch->setPalette(pal);
 }
 
+/******************************************************************************
+ * zoomChanged(int): Change the zoom combobox to the current zoom.
+ * Slot function.
+ * Signalers: zoom_slider->valueChanged(int)
+ * Get the zoom value from the slider and set the box to it.
+ *****************************************************************************/
 void MainWindow::zoomChanged(int s)
 {
     zoom_box->setEditText(QString::number(s));
 }
 
+/******************************************************************************
+ * zoomBoxChanged(int): Change the zoom to the zoom combobox's value.
+ * Slot function.
+ * Signalers: zoom_box->editTextChanged(int)
+ * Get the zoom value from the box and set the window to it.
+ *****************************************************************************/
 void MainWindow::zoomBoxChanged(QString str)
 {
     int n = str.toInt();

@@ -1,19 +1,16 @@
 /******************************************************************************
  * zoomdialog.cpp
  * Create a dialog to adjust the zoom.
- * This was implemented before we noticed that the zoom had to be set by a
- * drop-down box, so it's really more redundant than anything, but still neat.
- * There is also a slider in the main window's toolbar now that further makes
- * this useless, but it was a prototype for our color adjust window.
+ * This allows you to access zoom from the menus, in addition to the box &
+ * slider on the toolbar.
  * Author: Sam Harrington
  * Date of first commit: 10 October, 2011
- * Known bugs: If the target window is not set before the dialog is created,
- * it becomes impossible to set the target in Linux because the QMdiArea will
- * not have a valid sub-window. This does not affect Windows users.
+ * Known bugs: none.
  *****************************************************************************/
 #include "zoomdialog.h"
 #include "ui_zoomdialog.h"
 #include "imgwin.h"
+
 // Default constructor with a minor change to initialize the target.
 ZoomDialog::ZoomDialog(QWidget *parent) :
     QDialog(parent),
@@ -22,13 +19,17 @@ ZoomDialog::ZoomDialog(QWidget *parent) :
     ui->setupUi(this);
     target = NULL;
 }
+
 // Default deconstructor.
 ZoomDialog::~ZoomDialog()
 {
     delete ui;
 }
-// Sam, it looks like you made some modifications to this since I last looked.
-// Would you care to write the comment blocks for this file?
+
+/******************************************************************************
+ * setTarget(): Set the ImgWin that this dialog will resize. Reads the current
+ * zoom, updates the sliders, and stores the window.
+ *****************************************************************************/
 void ZoomDialog::setTarget(ImgWin *newTarget)
 {
     target = newTarget;
@@ -36,6 +37,11 @@ void ZoomDialog::setTarget(ImgWin *newTarget)
     updateBoxes(target->getScale());
 }
 
+/******************************************************************************
+ * commit(): Apply the zoom.
+ * This takes the current value of the zoom slider and applies it to the
+ * target.
+ *****************************************************************************/
 void ZoomDialog::commit()
 {
     if(target != NULL)
@@ -44,6 +50,10 @@ void ZoomDialog::commit()
     }
 }
 
+/******************************************************************************
+ * updateBoxes(int): Show what size the image would appear if commited.
+ * Shows the size of the resulting view in the label.
+ *****************************************************************************/
 void ZoomDialog::updateBoxes(int s)
 {
     ui->xBox->setText(QString().setNum(target->getImage().width() * s / 100));

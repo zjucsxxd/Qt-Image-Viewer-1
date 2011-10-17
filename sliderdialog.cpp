@@ -67,6 +67,7 @@ void SliderDialog::setBrightness()
     ui->PreviewLabel->show();
     bright_index = ui->brightness->value();
 }
+
 void SliderDialog::setContrast()
 {    QImage pic = ui->PreviewLabel->pixmap()->toImage();
     for(int i = 1; i < pic.width(); ++i)
