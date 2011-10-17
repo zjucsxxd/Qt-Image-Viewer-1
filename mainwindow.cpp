@@ -207,8 +207,8 @@ void MainWindow::doRevert()
         "Do you want to revert? You will lose all your changes.",
         QMessageBox::Ok | QMessageBox::Cancel))
     {
-        win->setImage(win->getReader()->read());
         win->getReader()->setFileName(win->getReader()->fileName());
+        win->setImage(win->getReader()->read());
     }
 }
 
