@@ -1,3 +1,10 @@
+/******************************************************************************
+ * sliderdialog.h
+ * Class prototypes and methods for the slider dialog (Color Adjust window).
+ * Details about the file can be found in sliderdialog.cpp to avoid redundancy.
+ * Author: Christopher Jensen
+ *****************************************************************************/
+
 #ifndef SLIDERDIALOG_H
 #define SLIDERDIALOG_H
 
@@ -19,8 +26,10 @@ public:
     void setImage(QImage);
 
 public slots:
+    /* To be implemented if time permits
     void setBrightness();
     void setContrast();
+    */
     void setRed();
     void setBlue();
     void setGreen();
@@ -29,8 +38,11 @@ public slots:
 private:
     Ui::SliderDialog *ui;
     const QPixmap *getPixmap();
+    /* The window we will commit any changes to */
     ImgWin* target;
+    /* To be used if we later decide to implement brightness adjusts.
     int bright_index;
+    */
 };
 
 #endif // SLIDERDIALOG_H

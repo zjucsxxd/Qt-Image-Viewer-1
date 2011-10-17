@@ -1,3 +1,8 @@
+/******************************************************************************
+ * imgabout.h
+ * Header file for the basic image info dialog. See the imgabout.cpp file for
+ * more information.
+ *****************************************************************************/
 #ifndef IMGABOUT_H
 #define IMGABOUT_H
 

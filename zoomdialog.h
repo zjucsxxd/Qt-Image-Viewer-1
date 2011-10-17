@@ -1,3 +1,7 @@
+/******************************************************************************
+ * zoomdialog.h
+ * Header file for the zoom dialog. More details can be found in zoomdialog.cpp
+ *****************************************************************************/
 #ifndef ZOOMDIALOG_H
 #define ZOOMDIALOG_H
 

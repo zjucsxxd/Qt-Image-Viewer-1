@@ -1,3 +1,13 @@
+/******************************************************************************
+ * mainwindow.cpp
+ * Creates the outer wrapper UI and performs some basic image manipulations.
+ * This is where the bulk of operations go; Unless something needs a special
+ * dialog, it's probably stuffed here.
+ * Author: Mostly Sam Harrington, but some of the functions were Christopher
+ *  Jensen's fault.
+ * Date of first commit: 28 September, 2011
+ * Knonw Issues: None.
+ *****************************************************************************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ui_imgresizedialog.h"
@@ -198,7 +208,7 @@ void MainWindow::doNegate()
 /******************************************************************************
  * doSharpen(void): Apply a sharpen filter to an image.
  * Slot function.
- * Signalers: actionNegate()
+ * Signalers: actionSharpen()
  * Attempts to sharpen an image by applying a
  * [0  -1  0]
  * [-1  5 -1]
@@ -238,13 +248,13 @@ void MainWindow::doSharpen()
 }
 
 /******************************************************************************
- * doSharpen(void): Apply a sharpen filter to an image.
+ * doSmooth(void): Apply a smooth filter to an image.
  * Slot function.
- * Signalers: actionNegate()
+ * Signalers: actionSmooth()
  * Attempts to sharpen an image by applying a
- * [0  -1  0]
- * [-1  5 -1]
- * [0  -1  0]
+ * [1  2  1]
+ * [2  4  2]
+ * [1  2  1]
  * filter to each pixel in succession.
  * Each color has the filter applied seperately, and if a color would exceed
  * 0xFF, it is clipped to 0xFF. If a color would go below 0, it is clipped to
@@ -292,7 +302,7 @@ void MainWindow::doSmooth()
  * doZoom(): Change the view zoom.
  * Slot function.
  * Signalers: actionZoom()
- * Zoom the image to the factor the user specifies.
+ * Creates a new zoom dialog targeted at the active window.
  *****************************************************************************/
 void MainWindow::doZoom()
 {

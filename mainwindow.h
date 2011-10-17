@@ -1,3 +1,8 @@
+/******************************************************************************
+ * mainwindow.h
+ * Header file for mainwindow.cpp, where you can find more details about the
+ * purpose of these two files.
+ *****************************************************************************/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 

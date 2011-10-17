@@ -1,3 +1,12 @@
+/******************************************************************************
+ * imgwin.cpp
+ * Create a window to display images.
+ * Author: Sam Harrington
+ * This window is configured to allow scrolling if the image is bigger than the
+ * window's view area, while allowing the image to be resized.
+ * Date of first commit: 09 October, 2011
+ * Known issues: None
+ *****************************************************************************/
 #include "ui_imgwin.h"
 #include "imgwin.h"
 #include <QCloseEvent>
