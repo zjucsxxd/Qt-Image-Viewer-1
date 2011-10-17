@@ -11,6 +11,7 @@
 class QMdiSubWindow;
 class QLabel;
 class QSlider;
+class QComboBox;
 class ImgWin;
 
 namespace Ui {
@@ -51,6 +52,8 @@ private slots:
     void doAbout();
     // Mouseover info
     void imgMouseInfo(QPoint);
+    void zoomChanged(int);
+    void zoomBoxChanged(QString);
 
 private:
     ImgWin* getCurrent();
@@ -59,6 +62,7 @@ private:
 
     Ui::MainWindow *ui;
     QSlider *zoom_slider;
+    QComboBox *zoom_box;
     QWidget *status_color_swatch;
 };
 

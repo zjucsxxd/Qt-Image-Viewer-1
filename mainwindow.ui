@@ -32,7 +32,7 @@
      <x>0</x>
      <y>0</y>
      <width>687</width>
-     <height>29</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -103,6 +103,7 @@
    <addaction name="actionInvert"/>
    <addaction name="actionSharpen"/>
    <addaction name="actionSmooth"/>
+   <addaction name="actionColor_Adjust"/>
    <addaction name="separator"/>
    <addaction name="actionCrop"/>
    <addaction name="actionResize"/>
@@ -710,6 +711,22 @@
     <hint type="sourcelabel">
      <x>270</x>
      <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>imageEditable(bool)</signal>
+   <receiver>actionColor_Adjust</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>343</x>
+     <y>218</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>

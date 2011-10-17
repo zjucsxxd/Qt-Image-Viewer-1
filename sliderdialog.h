@@ -30,9 +30,7 @@ public slots:
     void setBrightness();
     void setContrast();
     */
-    void setRed();
-    void setBlue();
-    void setGreen();
+    void setColor();
     void commit();
 
 private:

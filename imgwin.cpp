@@ -30,6 +30,7 @@ ImgWin::ImgWin(QWidget *parent) :
 ImgWin::~ImgWin()
 {
     delete ui;
+    delete reader;
 }
 
 /******************************************************************************

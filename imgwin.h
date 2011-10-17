@@ -31,11 +31,11 @@ public:
 
     QImageReader* getReader()
     {
-        return &reader;
+        return reader;
     }
-    void setReader(QString inreader)
+    void setReader(QImageReader *inreader)
     {
-        reader.setFileName(inreader);
+        reader = inreader;
     }
 
 signals:
@@ -61,8 +61,8 @@ private slots:
 
 private:
     Ui::ImageWindow *ui;
-    QAction* menu_item;
-    QImageReader reader;
+    QAction *menu_item;
+    QImageReader *reader;
     QImage image;
     float scaleFactor;
 };

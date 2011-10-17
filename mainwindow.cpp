@@ -9,18 +9,23 @@
  * Knonw Issues: None.
  *****************************************************************************/
 #include "mainwindow.h"
+
 #include "ui_mainwindow.h"
 #include "ui_imgresizedialog.h"
+
 #include "zoomdialog.h"
 #include "imgwin.h"
 #include "imgabout.h"
 #include "sliderdialog.h"
+
 #include <QMdiArea>
 #include <QFileDialog>
 #include <QImage>
 #include <QPixmap>
 #include <QMdiSubWindow>
 #include <QMessageBox>
+#include <QComboBox>
+#include <QLineEdit>
 
 
 /******************************************************************************
@@ -34,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Add a box in the status bar to show the color under the cursor
     status_color_swatch = new QLabel();
     QPalette pal = status_color_swatch->palette();
     pal.setColor(status_color_swatch->backgroundRole(), Qt::black);
@@ -42,14 +48,30 @@ MainWindow::MainWindow(QWidget *parent) :
     status_color_swatch->setMinimumSize(50,5);
     ui->statusBar->addPermanentWidget(status_color_swatch);
 
-    // Add a spacer on the toolbar (can't do it in design mode)
+    // Add a drop-down box to select common zoom sizes or to type in your own size
+    zoom_box = new QComboBox();
+    zoom_box->addItem("300");
+    zoom_box->addItem("200");
+    zoom_box->addItem("150");
+    zoom_box->addItem("100");
+    zoom_box->addItem("75");
+    zoom_box->addItem("50");
+    zoom_box->addItem("25");
+    zoom_box->addItem("10");
+    zoom_box->setInsertPolicy(QComboBox::NoInsert);
+    zoom_box->setValidator(new QIntValidator(10,300,zoom_box));
+    zoom_box->setEditable(true);
+    zoom_box->setEnabled(false);
+
+    ui->toolBar->addWidget(zoom_box);
+
+    // Add a spacer on the toolbar
     QWidget *w = new QWidget();
-    QSizePolicy p(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    w->setSizePolicy(p);
+    w->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    w->setMinimumSize(4, 4);
     ui->toolBar->addWidget(w);
 
-    ui->toolBar->addAction(ui->actionZoom);
-
+    // Add a slider to control zoom as well
     zoom_slider = new QSlider(Qt::Vertical);
     zoom_slider->setRange(10, 300);
     zoom_slider->setSingleStep(10);
@@ -57,16 +79,19 @@ MainWindow::MainWindow(QWidget *parent) :
     zoom_slider->setTickInterval(40);
     zoom_slider->setTickPosition(QSlider::TicksRight);
     zoom_slider->setEnabled(false);
-    zoom_slider->setMaximumSize(200,200);
     zoom_slider->setMinimumWidth(40);
+    zoom_slider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // Note, if you move the toolbar, the slider changes direction :)
     zoom_slider->connect(ui->toolBar, SIGNAL(orientationChanged(Qt::Orientation)), SLOT(setOrientation(Qt::Orientation)));
-    p.setHorizontalStretch(1);
-    p.setVerticalStretch(1);
-    zoom_slider->setSizePolicy(p);
 
     ui->toolBar->addWidget(zoom_slider);
 
+    // Also, you can resize to fit the window
     ui->toolBar->addAction(ui->actionFit_window);
+
+    // Sync the combo box and slider
+    connect(zoom_box, SIGNAL(editTextChanged(QString)), SLOT(zoomBoxChanged(QString)));
+    connect(zoom_box, SIGNAL(activated(QString)), SLOT(zoomBoxChanged(QString)));
 }
 
 /******************************************************************************
@@ -119,26 +144,30 @@ void MainWindow::setImage(QImage p)
  * Slot function.
  * Signalers: actionOpen
  * Attempts to open a document using Qt, and creates a child window for the
- * image. If the user cancells, no window is created.
+ * image. If the user cancels or they choose an invalid file, no window is
+ * created.
  *****************************************************************************/
 void MainWindow::doOpen()
 {
-    QString file = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.gif);;Any Files (*.*)");
+    QString file = QFileDialog::getOpenFileName(this, "Open Image", "",
+        "Image Files (*.png *.jpg *.bmp *.gif);;Any Files (*.*)");
 
     if (file != "")
     {
-        QImage img(file);
+        QImageReader *reader = new QImageReader(file);
+        QImage img = reader->read();
         if (!img.isNull())
         {
             ImgWin* win = new ImgWin;
             win->setImage(img);
             win->setWindowTitle(file);
-            win->setReader(file);
+            win->setReader(reader);
 
+            // Display the image window
             QMdiSubWindow* subwin = ui->mdiArea->addSubWindow(win);
             subwin->showMaximized();
 
-            // Add a item to the window menu
+            // Add a item to the window menu, and give it to the imgwin to keep track of
             win->setMenuItem(ui->menuWindow->addAction(file, subwin, SLOT(setFocus())));
             connect(win, SIGNAL(closing(QAction*)), this, SLOT(removeWindowListItem(QAction*)));
 
@@ -179,7 +208,7 @@ void MainWindow::doRevert()
         QMessageBox::Ok | QMessageBox::Cancel))
     {
         win->setImage(win->getReader()->read());
-        win->setReader(win->getReader()->fileName());
+        win->getReader()->setFileName(win->getReader()->fileName());
     }
 }
 
@@ -404,13 +433,16 @@ void MainWindow::doChangeImage(QMdiSubWindow* win)
 {
     ui->statusBar->clearMessage();
 
+    zoom_box->setDisabled(win == 0);
     zoom_slider->setDisabled(win == 0);
     zoom_slider->disconnect();
+    connect(zoom_slider, SIGNAL(valueChanged(int)), SLOT(zoomChanged(int)));
     if (win)
     {
         ImgWin *c = getCurrent();
 
         zoom_slider->setValue(c->getScale());
+        zoom_box->setEditText(QString::number(c->getScale()));
         c->connect(zoom_slider, SIGNAL(valueChanged(int)), SLOT(setScale(int)));
         zoom_slider->connect(c, SIGNAL(scaleChanged(int)), SLOT(setValue(int)));
     }
@@ -459,4 +491,15 @@ void MainWindow::imgMouseInfo(QPoint p)
     QPalette pal = status_color_swatch->palette();
     pal.setColor(status_color_swatch->backgroundRole(), c);
     status_color_swatch->setPalette(pal);
+}
+
+void MainWindow::zoomChanged(int s)
+{
+    zoom_box->setEditText(QString::number(s));
+}
+
+void MainWindow::zoomBoxChanged(QString str)
+{
+    int n = str.toInt();
+    zoom_slider->setValue(n);
 }
