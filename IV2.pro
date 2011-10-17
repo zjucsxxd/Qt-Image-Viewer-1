@@ -32,3 +32,7 @@ FORMS    += mainwindow.ui \
     sliderdialog.ui \
     imgresizedialog.ui
 
+OTHER_FILES += \
+    README.txt
+
+
